@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { combineReducers, createStore } from 'redux';
-// import { combineReducers, createStore, applyMiddleware, compose } from 'redux';
+import { combineReducers, createStore, applyMiddleware, compose } from 'redux';
 import { connect, Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 
-console.log('counter is ready for your command');
+console.log('marker is ready for your command');
 
-// 将 reducer 改名为了 counterReducer，因为以后会有更多 reducer 加入。
+// 将 reducer 改名为了 counterReducer，因为以后会有更多 reducer 加入
 const counterReducer = (state = { count: 0 }, action) => {
   switch (action.type) {
     case 'ADD':
@@ -25,7 +25,13 @@ const counterReducer = (state = { count: 0 }, action) => {
       return state;
   }
 };
-const add = () => ({ type: 'ADD' });
+const add = () => {
+  return dispatch => {
+    setTimeout(() => {
+      dispatch({ type: 'ADD' });
+    }, 2000);
+  };
+};
 const min = () => ({ type: 'MIN' });
 const reset = () => ({ type: 'RESET' });
 
@@ -33,14 +39,14 @@ const reset = () => ({ type: 'RESET' });
 const rootReducer = combineReducers({
   counter: counterReducer,
 });
-// 没有使用 redux-thunk 等中间件时，这样写就能配置好 redux 调试工具
+
+// 使用 redux-thunk 等中间件时，需要如此配置 redux 调试工具
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   rootReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  {},
+  composeEnhancers(applyMiddleware(thunk))
 );
-
-// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-// const store = createStore(rootReducer,{},composeEnhancers(applyMiddleware(thunk));
 
 class Counter extends React.Component {
   addOne = () => {
