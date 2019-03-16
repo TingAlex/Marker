@@ -104,3 +104,47 @@ const store = createStore(
 8. 运行项目，打开调试窗口，成功！
 
 ![electron 安装 redux react 调试工具](https://upload-images.jianshu.io/upload_images/10453247-e905ab4a4109d444.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+9. 上 [redux-thunk](https://github.com/reduxjs/redux-thunk)！
+```
+C:\Users\Ting\Downloads\test\electronRedux>cnpm install redux-thunk --save
+```
+
+10. 因为中间件的存在，我们需要去修改 redux 调试工具的部分代码。同样根据 [redux-devtools-extension](https://github.com/zalmoxisus/redux-devtools-extension) 的文档，我们需要新的 reducer 包裹方式。打开 `frontEnd/src/playground/reduxCounter.js` 
+```
+import { combineReducers, createStore, applyMiddleware, compose } from 'redux'
+import thunk from 'redux-thunk'
+
+// 使用 redux-thunk 等中间件时，需要如此配置 redux 调试工具
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(
+  rootReducer,
+  {},
+  composeEnhancers(applyMiddleware(thunk))
+);
+```
+11. 对 action 进行修改，增加异步操作。
+```
+const add = () => {
+  return dispatch => {
+    setTimeout(() => {
+      dispatch({ type: 'ADD' });
+    }, 2000);
+  };
+};
+const min = () => {
+  return dispatch => {
+    setTimeout(() => {
+      dispatch({ type: 'MIN' });
+    }, 2000);
+  };
+};
+const reset = () => {
+  return dispatch => {
+    setTimeout(() => {
+      dispatch({ type: 'RESET' });
+    }, 2000);
+  };
+};
+```
+12. 测试成功！
