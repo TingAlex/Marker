@@ -1,0 +1,22 @@
+> 作为我毕设的第一块奠基石，话不多说，盘它！你可以下载 [ReactSimpleCounter](https://github.com/TingAlex/ReactSimpleCounter) 并在根目录下运行命令 `npm install` 完成安装，用 `npm dev-server` 运行项目。
+### 目录结构
+![ReactCounter 目录结构](https://upload-images.jianshu.io/upload_images/10453247-77da4f4628edb1a7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+### 实现步骤
+1. 新建文件夹 ReactCounter，使用 VSCode 打开此文件夹
+2. 检查 node 与 npm 版本以验证是否安装成功
+```
+C:\Users\Ting\Downloads\test\ReactCounter>node -v
+v8.11.3
+C:\Users\Ting\Downloads\test\ReactCounter>npm -v
+5.6.0
+```
+3. 初始化 npm 项目
+```
+C:\Users\Ting\Downloads\test\ReactCounter>npm init
+```
+之后按照提示一路回车结束配置
+hahahahahah
+hahahahahah
+hahahahahah
+hahahahahah
+hahahahahah

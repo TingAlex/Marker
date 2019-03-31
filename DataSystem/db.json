@@ -1,0 +1,27 @@
+{
+  "articles": [
+    {
+      "title": "lowdb is awesome",
+      "folder": "default",
+      "webLocation": "",
+      "lastModefiedTime": "2019-03-29T03:20:44.135Z",
+      "id": "d3408366-2e9e-4421-b592-7d0aeb045d71"
+    },
+    {
+      "title": "ting",
+      "folder": "default",
+      "webLocation": "",
+      "lastModefiedTime": "2019-03-29T03:27:39.647Z",
+      "id": "56283cd7-3297-4742-a58c-6b254ff6d28e"
+    },
+    {
+      "title": "Ting is here",
+      "folder": "default",
+      "webLocation": "",
+      "lastModefiedTime": "2019-03-29T09:12:22.082Z",
+      "id": "c4d63eae-44e9-40c6-b4e9-88c6dcd49770"
+    }
+  ],
+  "images": [],
+  "user": {}
+}
