@@ -6,16 +6,17 @@ import thunk from "redux-thunk";
 
 import Static from "../../StaticInfo";
 
+// 为了能够在 react 框架中使用 ipc，这三行是目前需要的 workround
 const electron = window.require("electron");
 const fs = electron.remote.require("fs");
 const ipcRenderer = electron.ipcRenderer;
 
 console.log("marker is ready for your command");
 
-const articleReducer = (state = { current: {}, articleList: [] }, action) => {
+const articleReducer = (state = { currentArticle: {}, articleList: [] }, action) => {
   switch (action.type) {
     case "ARTICLELIST":
-      return { current: {}, articleList: action.articleList };
+      return { ...state, articleList: action.articleList };
     default:
       return state;
   }

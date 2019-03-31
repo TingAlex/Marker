@@ -1,13 +1,15 @@
 const path = require("path");
-
 const low = require("lowdb");
 const FileSync = require("lowdb/adapters/FileSync");
 const lodashId = require("lodash-id");
 const moment = require("moment");
 
+// lowdb 固定写法
 const dbJson = path.join(__dirname, "../DataSystem/db.json");
 const adapter = new FileSync(dbJson);
 const db = low(adapter);
+
+// 因为我需要 uid，所以额外引入了 lodash-id，要这样写
 db._.mixin(lodashId);
 
 // Set some defaults (required if your JSON file is empty)
@@ -61,6 +63,12 @@ const getArticleList = () => {
     .value();
 };
 
+module.exports = {
+  createArticle,
+  renameArticle,
+  getArticleList
+};
+
 // let newArt = createArticle("title");
 // const article = db
 //   .get(ARTICLES)
@@ -70,12 +78,6 @@ const getArticleList = () => {
 // console.log(
 //   renameArticle("56283cd7-3297-4742-a58c-6b254ff6d28e", "ting")
 // );
-
-module.exports = {
-  createArticle,
-  renameArticle,
-  getArticleList
-};
 
 // Set a user using Lodash shorthand syntax
 // db.set("user.name", "typicode").write();

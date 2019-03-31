@@ -5,6 +5,10 @@ const chokidar = require("chokidar");
 const ArticleFolder = path.join(__dirname, "../DataSystem/Articles");
 const ImageFolder = path.join(__dirname, "../DataSystem/Images");
 
+/**
+ * 初始化文章与图片的本地保存位置
+ * @returns {string} 文件夹是否创建成功的信息
+ */
 var initArticleAndImageFolder = () => {
   return new Promise((resolve, reject) => {
     if (!fs.existsSync(ArticleFolder)) {
@@ -22,9 +26,15 @@ var initArticleAndImageFolder = () => {
   });
 };
 
-var createArticle = name => {
+/**
+ * 新建空文件
+ *
+ * @param {string} title
+ * @returns {string} 文章是否创建成功的信息
+ */
+var createArticle = title => {
   return new Promise((resolve, reject) => {
-    let filePath = path.join(ArticleFolder, name + ".md");
+    let filePath = path.join(ArticleFolder, title + ".md");
     if (!fs.existsSync(filePath)) {
       fs.writeFile(filePath, "", err => {
         resolve(err ? err : "file created!");
@@ -35,9 +45,15 @@ var createArticle = name => {
   });
 };
 
-var loadArticle = name => {
+/**
+ * 读取文件
+ *
+ * @param {*} title 文章标题，其实也就是文章 id
+ * @returns 报错信息或是文章内容
+ */
+var loadArticle = title => {
   return new Promise((resolve, reject) => {
-    let filePath = path.join(ArticleFolder, name + ".md");
+    let filePath = path.join(ArticleFolder, title + ".md");
     fs.readFile(filePath, "utf8", (err, data) => {
       if (err) {
         reject(err);
@@ -47,9 +63,16 @@ var loadArticle = name => {
   });
 };
 
-var saveArticle = (name, content) => {
+/**
+ * 覆写文件
+ *
+ * @param {string} title 文章标题，其实也就是文章 id
+ * @param {string} content 新文件内容
+ * @returns 写回是否成功的信息
+ */
+var saveArticle = (title, content) => {
   return new Promise((resolve, reject) => {
-    let filePath = path.join(ArticleFolder, name + ".md");
+    let filePath = path.join(ArticleFolder, title + ".md");
     fs.writeFile(filePath, content, "utf8", err => {
       if (err) {
         reject(err);
@@ -59,7 +82,24 @@ var saveArticle = (name, content) => {
   });
 };
 
-// console.log(createArticle("temp"));
+/**
+ * 监听文件夹内容的改变
+ * TODO: 利用监听做什么？想清楚
+ * @param {string} dic
+ */
+var listenArticles = dic => {
+  chokidar.watch(dic, { ignored: /(^|[\/\\])\../ }).on("all", (event, path) => {
+    console.log(event, path);
+  });
+};
+
+module.exports = {
+  initArticleAndImageFolder,
+  createArticle,
+  loadArticle,
+  saveArticle,
+  listenArticles
+};
 
 // 测试文件读写
 // let testReadAndWriteArticles = async () => {
@@ -72,20 +112,6 @@ var saveArticle = (name, content) => {
 //   }
 // };
 
-// 监听文件夹内容的改变
-var listenArticles = dic => {
-  chokidar.watch(dic, { ignored: /(^|[\/\\])\../ }).on("all", (event, path) => {
-    console.log(event, path);
-  });
-};
-
+// 监听两个文件夹变化
 // listenArticles(ArticleFolder);
 // listenArticles(ImageFolder);
-
-module.exports = {
-  initArticleAndImageFolder,
-  createArticle,
-  loadArticle,
-  saveArticle,
-  listenArticles
-};

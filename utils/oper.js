@@ -41,7 +41,7 @@ var createArticle = async title => {
 
 /**
  * 读取文件
- *
+ * TODO: 增加错误处理
  * @param {string} id 文件 id
  * @returns {string} 文件内容
  */
@@ -52,7 +52,7 @@ var loadArticle = async id => {
 
 /**
  * 覆写文件
- *
+ * TODO: 增加错误处理
  * @param {string} id 文件 id
  * @param {string} content 新文件内容
  * @returns {string} 写回是否成功的信息
@@ -86,8 +86,6 @@ var getArticleList = async () => {
   return result;
 };
 
-// getArticleList();
-
 module.exports = {
   initFilesFolder,
   createArticle,
@@ -96,6 +94,8 @@ module.exports = {
   renameArticle,
   getArticleList
 };
+
+// getArticleList();
 
 // var testCreateSaveRename = async () => {
 //   let newId = await createArticle("test file");
