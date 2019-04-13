@@ -15,6 +15,10 @@ module.exports = {
         test: /\.js$/,
         // 转译非 node_modules 文件夹下的其他所有js文件
         exclude: /node_modules/
+      },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"]
       }
     ]
   },

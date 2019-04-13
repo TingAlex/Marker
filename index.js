@@ -17,7 +17,7 @@ let mainWindow;
 
 // 监听 到 ready 信号后执行函数内部代码
 app.on("ready", () => {
-  mainWindow = new BrowserWindow({});
+  mainWindow = new BrowserWindow({ width: 800, height: 600 });
   mainWindow.loadURL("http://localhost:8080");
   // mainWindow.loadURL(`file://${__dirname}/frontEnd/public/index.html`);
 

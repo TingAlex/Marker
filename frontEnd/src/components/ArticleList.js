@@ -1,26 +1,33 @@
 import React from "react";
-
 import { connect } from "react-redux";
+import { Menu, Icon } from "antd";
 import * as articleAction from "../actions/article";
 
 class Article extends React.Component {
+  componentDidMount() {
+    this.getArticleList();
+  }
   getArticleList = () => {
     this.props.getArticleList();
   };
   render() {
     return (
-      <div>
-        <button onClick={this.getArticleList}>getArticleList</button>
+      <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
         {this.props.article.articleList.map(article => {
-          return <div key={article.id}>{article.id}</div>;
+          return (
+            <Menu.Item key={article.id}>
+              <Icon type="user" />
+              <span>{article.title}</span>
+            </Menu.Item>
+          );
         })}
-      </div>
+      </Menu>
     );
   }
 }
 
 const mapStateToProps = ({ article }) => ({
-  article: article
+  article
 });
 const mapDispatchToProps = dispatch => ({
   getArticleList: () => {
