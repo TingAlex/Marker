@@ -100,7 +100,7 @@ module.exports = {
 // var testCreateSaveRename = async () => {
 //   let newId = await createArticle("test file");
 //   let result = await saveArticle(newId, "this is me, here I am");
-//   let info = await renameArticle(newId, "Ting is here");
+//   // let info = await renameArticle(newId, "Ting is here");
 //   return info;
 // };
 

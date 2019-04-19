@@ -37,6 +37,11 @@ ipcMain.on(Static.GET_ARTICLE_LIST, async event => {
   mainWindow.webContents.send(Static.SEND_ARTICLE_LIST, list);
 });
 
+ipcMain.on(Static.GET_ARTICLE_CONTENT, async (event, id) => {
+  let content = await oper.loadArticle(id);
+  mainWindow.webContents.send(Static.SEND_ARTICLE_CONTENT,content)
+});
+
 // 接收前端数据
 // ipcMain.on('video:submit', (event, path) => {
 //   ffmpeg.ffprobe(path, (err, metadata) => {

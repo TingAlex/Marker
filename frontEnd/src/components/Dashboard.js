@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 
 import { collapseSider } from "../actions/dashboard";
 import ArticleList from "./ArticleList";
+import Editor from "./Editor";
 
 const { Header, Sider, Content } = Layout;
 
@@ -42,7 +43,7 @@ class Dashboard extends React.Component {
               minHeight: 500
             }}
           >
-            Content
+          <Editor/>
           </Content>
         </Layout>
       </Layout>
@@ -62,4 +63,3 @@ export default connect(
   mapDispatchToProps
 )(Dashboard);
 
-// ReactDOM.render(<SiderDemo />, document.getElementById('container'));
