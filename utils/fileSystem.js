@@ -29,12 +29,12 @@ var initArticleAndImageFolder = () => {
 /**
  * 新建空文件
  *
- * @param {string} title
+ * @param {string} id 
  * @returns {string} 文章是否创建成功的信息
  */
-var createArticle = title => {
+var createArticle = id => {
   return new Promise((resolve, reject) => {
-    let filePath = path.join(ArticleFolder, title + ".md");
+    let filePath = path.join(ArticleFolder, id + ".md");
     if (!fs.existsSync(filePath)) {
       fs.writeFile(filePath, "", err => {
         resolve(err ? err : "file created!");
@@ -48,12 +48,12 @@ var createArticle = title => {
 /**
  * 读取文件
  *
- * @param {*} title 文章标题，其实也就是文章 id
+ * @param {*} id 文章实际保存的文件名称
  * @returns 报错信息或是文章内容
  */
-var loadArticle = title => {
+var loadArticle = id => {
   return new Promise((resolve, reject) => {
-    let filePath = path.join(ArticleFolder, title + ".md");
+    let filePath = path.join(ArticleFolder, id + ".md");
     fs.readFile(filePath, "utf8", (err, data) => {
       if (err) {
         reject(err);
@@ -66,13 +66,13 @@ var loadArticle = title => {
 /**
  * 覆写文件
  *
- * @param {string} title 文章标题，其实也就是文章 id
+ * @param {string} id 文章实际保存的文件名称
  * @param {string} content 新文件内容
  * @returns 写回是否成功的信息
  */
-var saveArticle = (title, content) => {
+var saveArticle = (id , content) => {
   return new Promise((resolve, reject) => {
-    let filePath = path.join(ArticleFolder, title + ".md");
+    let filePath = path.join(ArticleFolder, id + ".md");
     fs.writeFile(filePath, content, "utf8", err => {
       if (err) {
         reject(err);

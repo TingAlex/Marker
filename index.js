@@ -39,7 +39,17 @@ ipcMain.on(Static.GET_ARTICLE_LIST, async event => {
 
 ipcMain.on(Static.GET_ARTICLE_CONTENT, async (event, id) => {
   let content = await oper.loadArticle(id);
-  mainWindow.webContents.send(Static.SEND_ARTICLE_CONTENT,content)
+  mainWindow.webContents.send(Static.SEND_ARTICLE_CONTENT, content);
+});
+
+ipcMain.on(Static.MODIFY_ARTICLE_TITLE, async (event, { id, newTitle }) => {
+  let newObj = await oper.renameArticle(id, newTitle);
+  mainWindow.webContents.send(Static.MODIFIED_ARTICLE_TITLE, newObj.title);
+});
+
+ipcMain.on(Static.SAVE_ARTICLE, async (event, { id, content }) => {
+  let result = await oper.saveArticle(id, content);
+  mainWindow.webContents.send(Static.SAVED_ARTICLE, result);
 });
 
 // 接收前端数据

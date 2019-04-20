@@ -81,8 +81,6 @@ var renameArticle = async (id, title) => {
  */
 var getArticleList = async () => {
   let result = await dbSys.getArticleList();
-  console.log(result);
-
   return result;
 };
 

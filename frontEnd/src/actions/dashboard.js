@@ -5,3 +5,9 @@ export const collapseSider = () => {
     dispatch({ type: Static.COLLAPSE_SIDER });
   };
 };
+
+export const toggleTitle = () => {
+  return dispatch => {
+    dispatch({ type: Static.TITTLE_TOGGLE });
+  };
+};

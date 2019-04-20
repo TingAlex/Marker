@@ -2,6 +2,9 @@ import Static from "../../../StaticInfo";
 
 import marked from "marked";
 
+import React from "react";
+import { notification, Icon } from "antd";
+
 var rendererMD = new marked.Renderer();
 
 // Set markdown default options
@@ -35,7 +38,7 @@ export const articleList = () => {
 };
 
 export /**
- * 当点击文章标题后，读取到文档内容后顺便把内容渲染一遍显示出来
+ * 当点击文章标题后，读取到文档内容后顺便把内容渲染一遍显示出来，把 temp 文件也初始化下
  *
  * @param {*} id 文章 id
  * @returns
@@ -64,7 +67,39 @@ const renderContent = content => {
   return dispatch => {
     dispatch({
       type: Static.MODIFYRENDERCONTENT,
+      content,
       renderContent: marked(content)
+    });
+  };
+};
+
+export /**
+ * 一方面修改前端 store 中的 title，一方面通知后端修改 db 中的 title
+ *
+ * @param {*} id
+ * @param {*} newTitle
+ * @returns
+ */
+const changeTitle = (id, newTitle) => {
+  return dispatch => {
+    dispatch({
+      type: Static.MODIFY_TITLE,
+      title: newTitle
+    });
+    ipcRenderer.send(Static.MODIFY_ARTICLE_TITLE, { id, newTitle });
+    ipcRenderer.on(Static.MODIFIED_ARTICLE_TITLE, (event, title) => {});
+  };
+};
+
+export const saveContent = (id, content) => {
+  return dispatch => {
+    ipcRenderer.send(Static.SAVE_ARTICLE, { id, content });
+    ipcRenderer.on(Static.SAVED_ARTICLE, (event, result) => {
+      notification.open({
+        message: "Save Successfully!",
+        description: result,
+        icon: <Icon type="smile" style={{ color: "#108ee9" }} />
+      });
     });
   };
 };

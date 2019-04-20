@@ -4,6 +4,8 @@ export const articleReducer = (
   state = {
     currentArticleId: "",
     currentContent: "",
+    // 每次修改内容后都会保存在这里，留待保存时使用
+    tempContent: "",
     renderContent: "",
     articleList: []
   },
@@ -17,10 +19,23 @@ export const articleReducer = (
         ...state,
         currentArticleId: action.id,
         currentContent: action.content,
-        renderContent:action.renderContent
+        tempContent: action.content,
+        renderContent: action.renderContent
       };
     case Static.MODIFYRENDERCONTENT:
-      return { ...state, renderContent: action.renderContent };
+      return {
+        ...state,
+        tempContent: action.content,
+        renderContent: action.renderContent
+      };
+    case Static.MODIFY_TITLE:
+      let temp = [...state.articleList];
+      for (let i = 0; i < temp.length; i++) {
+        if (temp[i].id === state.currentArticleId) {
+          temp[i].title = action.title;
+        }
+      }
+      return { ...state, articleList: temp };
     default:
       return state;
   }

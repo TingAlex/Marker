@@ -10,15 +10,6 @@ class Editor extends React.Component {
   render() {
     return (
       <div>
-        {/* <Row>
-          <Col span={24}>
-            <input
-              type="text"
-              placeholder="输入文章标题..."
-              spellCheck="false"
-            />
-          </Col>
-        </Row> */}
         <Row>
           <Col span={12}>
             <div
