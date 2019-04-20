@@ -6,6 +6,7 @@ import * as articleAction from "../actions/article";
 class Article extends React.Component {
   componentDidMount() {
     this.getArticleList();
+    // this.props.renderContent("haha");
   }
   getArticleList = () => {
     this.props.getArticleList();
@@ -45,7 +46,6 @@ const mapDispatchToProps = dispatch => ({
   getArticleContent: id => {
     dispatch(articleAction.articleContent(id));
   },
-
 });
 
 export default connect(
