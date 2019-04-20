@@ -127,7 +127,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Dashboard);
-<<<<<<< HEAD
-=======
-
->>>>>>> 96d9c43a99f9c9cbb8d0d4a2216c53d0cc9a864d
