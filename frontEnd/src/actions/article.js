@@ -31,7 +31,7 @@ const ipcRenderer = electron.ipcRenderer;
 export const articleList = () => {
   return dispatch => {
     ipcRenderer.send(Static.GET_ARTICLE_LIST);
-    ipcRenderer.on(Static.SEND_ARTICLE_LIST, (event, articleList) => {
+    ipcRenderer.once(Static.SEND_ARTICLE_LIST, (event, articleList) => {
       dispatch({ type: Static.ARTICLELIST, articleList });
     });
   };
@@ -46,7 +46,7 @@ export /**
 const articleContent = id => {
   return dispatch => {
     ipcRenderer.send(Static.GET_ARTICLE_CONTENT, id);
-    ipcRenderer.on(Static.SEND_ARTICLE_CONTENT, (event, content) => {
+    ipcRenderer.once(Static.SEND_ARTICLE_CONTENT, (event, content) => {
       dispatch({
         type: Static.ARTICLECONTENT,
         content,
@@ -87,18 +87,32 @@ const changeTitle = (id, newTitle) => {
       title: newTitle
     });
     ipcRenderer.send(Static.MODIFY_ARTICLE_TITLE, { id, newTitle });
-    ipcRenderer.on(Static.MODIFIED_ARTICLE_TITLE, (event, title) => {});
+    ipcRenderer.once(Static.MODIFIED_ARTICLE_TITLE, (event, title) => {});
   };
 };
 
 export const saveContent = (id, content) => {
   return dispatch => {
     ipcRenderer.send(Static.SAVE_ARTICLE, { id, content });
-    ipcRenderer.on(Static.SAVED_ARTICLE, (event, result) => {
+    ipcRenderer.once(Static.SAVED_ARTICLE, (event, result) => {
       notification.open({
         message: "Save Successfully!",
         description: result,
         icon: <Icon type="smile" style={{ color: "#108ee9" }} />
+      });
+    });
+  };
+};
+
+// TODO：如何正常执行刷新Editor？ 并且如何将选中样式应用到这个新建的项目上？
+// articleContent(article.id);
+export const createArticle = () => {
+  return dispatch => {
+    ipcRenderer.send(Static.CREATE_ARTICLE);
+    ipcRenderer.once(Static.CREATED_ARTICLE, (event, article) => {
+      dispatch({
+        type: Static.ADD_ARTICLE,
+        article
       });
     });
   };

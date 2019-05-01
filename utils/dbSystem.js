@@ -22,7 +22,7 @@ let USER = "user";
  * 创建空文章信息
  *
  * @param {*} title 文章名
- * @returns 文章 id
+ * @returns 文章的整个数据对象
  */
 const createArticle = title => {
   return db

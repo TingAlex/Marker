@@ -22,7 +22,7 @@ var initFilesFolder = async () => {
  * 新建空文件
  *
  * @param {string} title 文件名称
- * @returns {string} 文件 id
+ * @returns {} 文件的整个数据对象
  */
 var createArticle = async title => {
   let article = dbSys.createArticle(title);
@@ -30,7 +30,7 @@ var createArticle = async title => {
   if (idOfArticle) {
     let result = await fileSys.createArticle(idOfArticle);
     if (result === "file created!") {
-      return idOfArticle;
+      return article;
     } else {
       return undefined;
     }

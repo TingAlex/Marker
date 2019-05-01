@@ -6,7 +6,6 @@ import * as articleAction from "../actions/article";
 class Article extends React.Component {
   componentDidMount() {
     this.getArticleList();
-    // this.props.renderContent("haha");
   }
   getArticleList = () => {
     this.props.getArticleList();
@@ -17,7 +16,12 @@ class Article extends React.Component {
   };
   render() {
     return (
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
+      <Menu
+        theme="dark"
+        mode="inline"
+        // defaultSelectedKeys={["1"]}
+        selectedKeys={[this.props.article.currentArticleId]}
+      >
         {this.props.article.articleList.map(article => {
           return (
             <Menu.Item
@@ -45,7 +49,7 @@ const mapDispatchToProps = dispatch => ({
   },
   getArticleContent: id => {
     dispatch(articleAction.articleContent(id));
-  },
+  }
 });
 
 export default connect(

@@ -52,6 +52,11 @@ ipcMain.on(Static.SAVE_ARTICLE, async (event, { id, content }) => {
   mainWindow.webContents.send(Static.SAVED_ARTICLE, result);
 });
 
+ipcMain.on(Static.CREATE_ARTICLE, async event => {
+  let obj = await oper.createArticle(Static.DefaultTitle);
+  mainWindow.webContents.send(Static.CREATED_ARTICLE, obj);
+});
+
 // 接收前端数据
 // ipcMain.on('video:submit', (event, path) => {
 //   ffmpeg.ffprobe(path, (err, metadata) => {

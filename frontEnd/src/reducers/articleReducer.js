@@ -13,7 +13,7 @@ export const articleReducer = (
 ) => {
   switch (action.type) {
     case Static.ARTICLELIST:
-      return { ...state, articleList: action.articleList };
+      return { ...state, articleList: [...action.articleList] };
     case Static.ARTICLECONTENT:
       return {
         ...state,
@@ -36,6 +36,16 @@ export const articleReducer = (
         }
       }
       return { ...state, articleList: temp };
+    case Static.ADD_ARTICLE:
+      return {
+        ...state,
+        currentArticleId: action.article.id,
+        currentContent: "",
+        // 每次修改内容后都会保存在这里，留待保存时使用
+        tempContent: "",
+        renderContent: "",
+        articleList: [action.article, ...state.articleList]
+      };
     default:
       return state;
   }

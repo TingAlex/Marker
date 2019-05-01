@@ -4,7 +4,7 @@ import { Layout, Icon, Button, Row, Col, Input } from "antd";
 import { connect } from "react-redux";
 
 import { collapseSider, toggleTitle } from "../actions/dashboard";
-import { changeTitle, saveContent, recoverContent } from "../actions/article";
+import { changeTitle, saveContent, createArticle } from "../actions/article";
 import ArticleList from "./ArticleList";
 import Editor from "./Editor";
 
@@ -25,6 +25,9 @@ class Dashboard extends React.Component {
   changeTitle = title => {
     this.props.saveTitleChanges(this.props.currentArticle.id, title);
   };
+  createArticle = () => {
+    this.props.createNewArticle();
+  };
   saveContent = () => {
     this.props.saveContentChanges(
       this.props.currentArticle.id,
@@ -41,6 +44,9 @@ class Dashboard extends React.Component {
           collapsed={this.props.dashboard.collapsed}
         >
           <div className="logo" />
+          <Button block onClick={this.createArticle}>
+            +
+          </Button>
           <ArticleList />
         </Sider>
         <Layout>
@@ -76,9 +82,7 @@ class Dashboard extends React.Component {
                 <Button type="primary" onClick={this.saveContent}>
                   Save
                 </Button>
-                <Button type="danger">
-                  Discard
-                </Button>
+                <Button type="danger">Discard</Button>
                 {/* <Button>Default</Button> */}
                 <Button type="dashed">Output</Button>
               </Col>
@@ -121,6 +125,9 @@ const mapDispatchToProps = dispatch => ({
   saveContentChanges: (id, content) => {
     dispatch(saveContent(id, content));
   },
+  createNewArticle: () => {
+    dispatch(createArticle());
+  }
 });
 
 export default connect(
