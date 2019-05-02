@@ -4,7 +4,12 @@ import { Layout, Icon, Button, Row, Col, Input } from "antd";
 import { connect } from "react-redux";
 
 import { collapseSider, toggleTitle } from "../actions/dashboard";
-import { changeTitle, saveContent, createArticle } from "../actions/article";
+import {
+  changeTitle,
+  saveContent,
+  createArticle,
+  deleteArticle
+} from "../actions/article";
 import ArticleList from "./ArticleList";
 import Editor from "./Editor";
 
@@ -28,6 +33,9 @@ class Dashboard extends React.Component {
   createArticle = () => {
     this.props.createNewArticle();
   };
+  deleteArticle = () => {
+    this.props.deleteCurrentArticle(this.props.currentArticle.id);
+  };
   saveContent = () => {
     this.props.saveContentChanges(
       this.props.currentArticle.id,
@@ -44,9 +52,8 @@ class Dashboard extends React.Component {
           collapsed={this.props.dashboard.collapsed}
         >
           <div className="logo" />
-          <Button block onClick={this.createArticle}>
-            +
-          </Button>
+          <Button onClick={this.createArticle}>Add</Button>
+          <Button onClick={this.deleteArticle}>Del</Button>
           <ArticleList />
         </Sider>
         <Layout>
@@ -127,6 +134,9 @@ const mapDispatchToProps = dispatch => ({
   },
   createNewArticle: () => {
     dispatch(createArticle());
+  },
+  deleteCurrentArticle: id => {
+    dispatch(deleteArticle(id));
   }
 });
 

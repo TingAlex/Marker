@@ -1,6 +1,6 @@
 module.exports = {
   // 国际化相关
-  DefaultTitle:"Default Title",
+  DefaultTitle: "Default Title",
   // ipc 相关
   GET_ARTICLE_LIST: "article:getList",
   SEND_ARTICLE_LIST: "article:sendList",
@@ -12,6 +12,8 @@ module.exports = {
   MODIFIED_ARTICLE_TITLE: "article:modifiedTitle",
   CREATE_ARTICLE: "article:createNew",
   CREATED_ARTICLE: "article:createdNew",
+  DELETE_ARTICLE: "article:deleteCurrent",
+  DELETED_ARTICLE: "article:deletedCurrent",
   // action 相关
   ARTICLELIST: "ARTICLE_LIST",
   ARTICLECONTENT: "ARTICLE_CONTENT",
@@ -20,5 +22,6 @@ module.exports = {
   COLLAPSE_SIDER: "COLLAPSE_SIDER",
   TITTLE_TOGGLE: "TITTLE_TOGGLE",
   SAVESUCCESSED: "SAVE_SUCCESSED",
-  ADD_ARTICLE:"ADD_ARTICLE"
+  ADD_ARTICLE: "ADD_ARTICLE",
+  REMOVE_ARTICLE: "REMOVE_ARTICLE"
 };

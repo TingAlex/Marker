@@ -46,6 +46,17 @@ export const articleReducer = (
         renderContent: "",
         articleList: [action.article, ...state.articleList]
       };
+    case Static.REMOVE_ARTICLE:
+      return {
+        currentArticleId: "",
+        currentContent: "",
+        // 每次修改内容后都会保存在这里，留待保存时使用
+        tempContent: "",
+        renderContent: "",
+        articleList: state.articleList.filter(item => {
+          return item.id !== action.id;
+        })
+      };
     default:
       return state;
   }

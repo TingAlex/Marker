@@ -104,8 +104,6 @@ export const saveContent = (id, content) => {
   };
 };
 
-// TODO：如何正常执行刷新Editor？ 并且如何将选中样式应用到这个新建的项目上？
-// articleContent(article.id);
 export const createArticle = () => {
   return dispatch => {
     ipcRenderer.send(Static.CREATE_ARTICLE);
@@ -113,6 +111,23 @@ export const createArticle = () => {
       dispatch({
         type: Static.ADD_ARTICLE,
         article
+      });
+    });
+  };
+};
+
+export const deleteArticle = id => {
+  return dispatch => {
+    ipcRenderer.send(Static.DELETE_ARTICLE, id);
+    ipcRenderer.once(Static.DELETED_ARTICLE, (event, article) => {
+      dispatch({
+        type: Static.REMOVE_ARTICLE,
+        id
+      });
+      notification.open({
+        message: "Delete Successfully!",
+        description: article[0].title,
+        icon: <Icon type="smile" style={{ color: "#108ee9" }} />
       });
     });
   };

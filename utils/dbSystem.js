@@ -63,12 +63,27 @@ const getArticleList = () => {
     .value();
 };
 
+/**
+ * 删除指定 id 的文章数据
+ *
+ * @param {*} id 文章 id
+ * @returns 删除的文章的信息内容
+ */
+const deleteArticle = id => {
+  return db
+    .get(ARTICLES)
+    .remove({ id })
+    .write();
+};
+
 module.exports = {
   createArticle,
   renameArticle,
-  getArticleList
+  getArticleList,
+  deleteArticle
 };
 
+console.log(deleteArticle("b91e757c-b0a1-4aff-9cfa-02ffe2d4b3ea"));
 // let newArt = createArticle("title");
 // const article = db
 //   .get(ARTICLES)

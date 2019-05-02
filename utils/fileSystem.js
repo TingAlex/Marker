@@ -29,7 +29,7 @@ var initArticleAndImageFolder = () => {
 /**
  * 新建空文件
  *
- * @param {string} id 
+ * @param {string} id
  * @returns {string} 文章是否创建成功的信息
  */
 var createArticle = id => {
@@ -70,7 +70,7 @@ var loadArticle = id => {
  * @param {string} content 新文件内容
  * @returns 写回是否成功的信息
  */
-var saveArticle = (id , content) => {
+var saveArticle = (id, content) => {
   return new Promise((resolve, reject) => {
     let filePath = path.join(ArticleFolder, id + ".md");
     fs.writeFile(filePath, content, "utf8", err => {
@@ -78,6 +78,24 @@ var saveArticle = (id , content) => {
         reject(err);
       }
       resolve("file save successfully!");
+    });
+  });
+};
+
+/**
+ * 删除文件
+ *
+ * @param {*} id 文件 id
+ * @returns 是否成功删除的信息
+ */
+var deleteArticle = id => {
+  return new Promise((resolve, reject) => {
+    let filePath = path.join(ArticleFolder, id + ".md");
+    fs.unlink(filePath, err => {
+      if (err) {
+        reject(err);
+      }
+      resolve("file remove successfully!");
     });
   });
 };
@@ -98,8 +116,22 @@ module.exports = {
   createArticle,
   loadArticle,
   saveArticle,
-  listenArticles
+  listenArticles,
+  deleteArticle
 };
+
+
+// 测试文件删除
+// let testDeleteFile = async () => {
+//   try {
+//     let result = await deleteArticle("ting");
+//     console.log(result);
+//   } catch (e) {
+//     console.log(e);
+//   }
+// };
+
+// testDeleteFile();
 
 // 测试文件读写
 // let testReadAndWriteArticles = async () => {

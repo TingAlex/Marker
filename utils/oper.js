@@ -63,6 +63,24 @@ var saveArticle = async (id, content) => {
 };
 
 /**
+ * 删除一个文章所有的相关信息
+ *
+ * @param {*} id 文件 id
+ * @returns 删除的文章在数据库中的信息
+ */
+var deleteArticle = async id => {
+  // 删除文件夹中的文件
+  try {
+    let result = await fileSys.deleteArticle(id);
+    console.log(result);
+  } catch (e) {
+    console.log(e);
+  }
+  // 删除db中的记录
+  return dbSys.deleteArticle(id);
+};
+
+/**
  * 重命名文章
  *
  * @param {*} id 文章 id
@@ -90,7 +108,8 @@ module.exports = {
   loadArticle,
   saveArticle,
   renameArticle,
-  getArticleList
+  getArticleList,
+  deleteArticle
 };
 
 // getArticleList();
