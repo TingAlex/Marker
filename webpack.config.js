@@ -26,7 +26,19 @@ module.exports = {
   devServer: {
     contentBase: path.join(__dirname, "frontEnd/public"),
     // 将无法识别的地址都返回给 client 端的 index.html
-    historyApiFallback: true
+    historyApiFallback: true,
+    proxy: {
+      "/api/*": {
+        target: "http://localhost:5000",
+        changeOrigin: true,
+        secure: false
+      },
+      "/images/*": {
+        target: "http://localhost:5000",
+        changeOrigin: true,
+        secure: false
+      }
+    }
   },
   // 浏览器调试发现错误后可以追溯到转译前源代码的报错位置
   devtool: "cheap-module-eval-source-map"

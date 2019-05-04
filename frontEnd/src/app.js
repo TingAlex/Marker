@@ -3,12 +3,11 @@ import ReactDOM from "react-dom";
 
 import { Provider } from "react-redux";
 import { store } from "./store/configureStore";
-
-import Dashboard from "./components/Dashboard";
+import AppRouter from "./routers/AppRouter";
 
 ReactDOM.render(
   <Provider store={store}>
-    <Dashboard />
+    <AppRouter />
   </Provider>,
   document.getElementById("app")
 );
