@@ -22,6 +22,10 @@ export const submitLogin = (value, history) => async dispatch => {
 export const submitSignup = (value, history) => async dispatch => {
   const res = await axios.post("/api/signup", value);
   console.log("after sign up " + JSON.stringify(res.data));
-  history.push("/login");
-  dispatch({ type: Static.FETCH_USER, payload: res.data });
+  if (res.data.err) {
+    alert("error message: " + res.data.err);
+  } else {
+    history.push("/login");
+    // dispatch({ type: Static.FETCH_USER, payload: res.data });
+  }
 };

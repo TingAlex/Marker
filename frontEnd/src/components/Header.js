@@ -1,42 +1,74 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+
+import { Menu, Icon } from "antd";
+
+const SubMenu = Menu.SubMenu;
+const MenuItemGroup = Menu.ItemGroup;
+
 class Header extends React.Component {
+  state = {
+    current: "dashboard"
+  };
+
+  handleClick = e => {
+    console.log("click ", e);
+    this.setState({
+      current: e.key
+    });
+  };
+
   renderContent() {
     switch (this.props.auth) {
       case null:
-        return;
+        return <div />;
       case false:
-        return [
-          <li key="1">
-            <Link to="/">Dashboard</Link>
-          </li>,
-          <li key="2">
-            <Link to="/login">Login</Link>
-          </li>,
-          <li key="3">
-            <Link to="/signup">Sign up</Link>
-          </li>
-        ];
+        return (
+          <Menu
+            onClick={this.handleClick}
+            selectedKeys={[this.state.current]}
+            mode="horizontal"
+          >
+            <Menu.Item key="dashboard">
+              <Link to="/">Dashboard</Link>
+            </Menu.Item>
+            <Menu.Item key="login">
+              <Link to="/login">Login</Link>
+            </Menu.Item>
+            <Menu.Item key="signup">
+              <Link to="/signup">Sign up</Link>
+            </Menu.Item>
+          </Menu>
+        );
       default:
-        return [
-          <li key="1">
-            <Link to="/">Dashboard</Link>
-          </li>,
-          <li key="2">
-            <Link to="#">
-              UsedSpace:{this.props.auth.spaceUsed}/{this.props.auth.spaceLimit}
-            </Link>
-          </li>,
-          <li key="3">{this.props.auth.userName}</li>,
-          <li key="4">
-            <a href="/api/logout">Logout</a>
-          </li>
-        ];
+        return (
+          <Menu
+            onClick={this.handleClick}
+            selectedKeys={[this.state.current]}
+            mode="horizontal"
+          >
+            <Menu.Item key="dashboard">
+              <Link to="/">Dashboard</Link>
+            </Menu.Item>
+            <Menu.Item key="space">
+              <Link to="#">
+                UsedSpace:{this.props.auth.spaceUsed}/
+                {this.props.auth.spaceLimit}
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="username">
+              <Link to="#">{this.props.auth.userName}</Link>
+            </Menu.Item>
+            <Menu.Item key="logout">
+              <a href="/api/logout">Logout</a>
+            </Menu.Item>
+          </Menu>
+        );
     }
   }
   render() {
-    return <ul>{this.renderContent()}</ul>;
+    return this.renderContent();
   }
 }
 
