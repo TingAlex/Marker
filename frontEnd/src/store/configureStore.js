@@ -3,11 +3,13 @@ import thunk from "redux-thunk";
 import { articleReducer } from "../reducers/articleReducer";
 import { dashboardReducer } from "../reducers/dashboardReducer";
 import { authReducer } from "../reducers/authReducer";
+import { headerReducer } from "../reducers/headerReducer";
 
 // 将多个 reducer 添加至一个 root reducer 中
 const rootReducer = combineReducers({
   auth: authReducer,
   article: articleReducer,
+  header: headerReducer,
   dashboard: dashboardReducer
 });
 

@@ -1,22 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import * as action from "../actions/header";
 
-import { Menu, Icon } from "antd";
-
-const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
+import { Menu } from "antd";
 
 class Header extends React.Component {
-  state = {
-    current: "dashboard"
-  };
-
   handleClick = e => {
     console.log("click ", e);
-    this.setState({
-      current: e.key
-    });
+    this.props.setHighlight(e.key);
   };
 
   renderContent() {
@@ -27,7 +19,7 @@ class Header extends React.Component {
         return (
           <Menu
             onClick={this.handleClick}
-            selectedKeys={[this.state.current]}
+            selectedKeys={[this.props.header.highlight]}
             mode="horizontal"
           >
             <Menu.Item key="dashboard">
@@ -45,7 +37,7 @@ class Header extends React.Component {
         return (
           <Menu
             onClick={this.handleClick}
-            selectedKeys={[this.state.current]}
+            selectedKeys={[this.props.header.highlight]}
             mode="horizontal"
           >
             <Menu.Item key="dashboard">
@@ -72,7 +64,15 @@ class Header extends React.Component {
   }
 }
 
-const mapStateToProps = ({ auth }) => {
-  return { auth };
+const mapStateToProps = ({ auth, header }) => {
+  return { auth, header };
 };
-export default connect(mapStateToProps)(Header);
+const mapDispatchToProps = dispatch => ({
+  setHighlight: key => {
+    dispatch(action.setHeaderHighlight(key));
+  }
+});
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Header);

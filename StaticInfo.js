@@ -26,5 +26,7 @@ module.exports = {
   REMOVE_ARTICLE: "REMOVE_ARTICLE",
   // action 登录相关
   FETCH_USER: "FETCH_USER",
-  LOGIN_ERROR: "LOGIN_ERROR"
+  LOGIN_ERROR: "LOGIN_ERROR",
+  // action Header 相关
+  SET_HIGHLIGHT:"SET_HIGHLIGHT"
 };

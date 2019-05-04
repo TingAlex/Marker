@@ -26,6 +26,6 @@ export const submitSignup = (value, history) => async dispatch => {
     alert("error message: " + res.data.err);
   } else {
     history.push("/login");
-    // dispatch({ type: Static.FETCH_USER, payload: res.data });
+    dispatch({ type: Static.SET_HIGHLIGHT, highlight: "login" });
   }
 };
