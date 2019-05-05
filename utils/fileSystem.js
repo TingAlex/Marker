@@ -98,8 +98,24 @@ var saveArticle = (id, content) => {
   });
 };
 
+function delDir(path) {
+  let files = [];
+  if (fs.existsSync(path)) {
+    files = fs.readdirSync(path);
+    files.forEach((file, index) => {
+      let curPath = path + "/" + file;
+      if (fs.statSync(curPath).isDirectory()) {
+        delDir(curPath); //递归删除文件夹
+      } else {
+        fs.unlinkSync(curPath); //删除文件
+      }
+    });
+    fs.rmdirSync(path);
+  }
+}
+
 /**
- * 删除文件
+ * 删除文件所在的整个文件夹！
  *
  * @param {*} id 文件 id
  * @returns 是否成功删除的信息
@@ -107,7 +123,12 @@ var saveArticle = (id, content) => {
 var deleteArticle = id => {
   return new Promise((resolve, reject) => {
     let filePath = path.join(ArticleFolder, id);
-    fs.unlink(filePath, err => {
+    let files = [];
+    files = fs.readdirSync(filePath);
+    files.forEach((file, index) => {
+      fs.unlinkSync(filePath + "/" + file);
+    });
+    fs.rmdir(filePath, err => {
       if (err) {
         reject(err);
       }
@@ -138,16 +159,16 @@ module.exports = {
 };
 
 // 测试文件删除
-// let testDeleteFile = async () => {
-//   try {
-//     let result = await deleteArticle("ting");
-//     console.log(result);
-//   } catch (e) {
-//     console.log(e);
-//   }
-// };
+let testDeleteFile = async () => {
+  try {
+    let result = await deleteArticle("c777cb11-275a-4340-ab33-59b0940f99ca");
+    console.log(result);
+  } catch (e) {
+    console.log(e);
+  }
+};
 
-// testDeleteFile();
+testDeleteFile();
 
 // 测试文件读写
 // let testReadAndWriteArticles = async () => {

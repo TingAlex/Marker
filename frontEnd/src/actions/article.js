@@ -165,11 +165,12 @@ const picProcess = (file, currentArticleId, content, insertIndex) => {
         console.log(base64);
         ipcRenderer.send(Static.SAVE_PIC, { base64, currentArticleId });
         ipcRenderer.once(Static.SAVED_PIC, (event, absolutePath) => {
-          // 把content中从insertIndex起找到(pending...),把这里面的用absolutePath替换一下
+          // 把 content 中从 insertIndex 起找到 (pending...),把这里面的用 absolutePath 替换一下
           let finalContent = content.replaceAt(
             insertIndex,
             pending,
-            "(" + absolutePath + ")"
+            // node path 生成的路径不能拿到前端直接使用，还是需要将分隔符转一下
+            "(" + absolutePath.replace(/\\/g, "/") + ")"
           );
           dispatch({
             type: Static.MODIFY_CURRENT_CONTENT,
