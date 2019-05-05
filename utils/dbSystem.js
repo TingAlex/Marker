@@ -31,8 +31,25 @@ const createArticle = title => {
       title,
       folder: "default",
       webLocation: "",
-      lastModefiedTime: new Date()
+      lastModefiedTime: new Date(),
+      pics: []
     })
+    .write();
+};
+
+/**
+ * 将图片信息写入到文章的图列表中
+ *
+ * @param {*} fileName 图片名称
+ * @param {*} articleId 所属文章 id
+ * @returns 关于这张图片的一条json信息
+ */
+const savePicToArticle = (fileName, articleId) => {
+  return db
+    .get(ARTICLES)
+    .getById(articleId)
+    .get("pics")
+    .insert({ title: fileName })
     .write();
 };
 
@@ -80,10 +97,14 @@ module.exports = {
   createArticle,
   renameArticle,
   getArticleList,
-  deleteArticle
+  deleteArticle,
+  savePicToArticle
 };
 
-console.log(deleteArticle("b91e757c-b0a1-4aff-9cfa-02ffe2d4b3ea"));
+// console.log(
+//   savePicToArticle("image.png", "4c3ebc86-6f08-4bd4-81fd-be293f7f83e4")
+// );
+// console.log(deleteArticle("b91e757c-b0a1-4aff-9cfa-02ffe2d4b3ea"));
 // let newArt = createArticle("title");
 // const article = db
 //   .get(ARTICLES)

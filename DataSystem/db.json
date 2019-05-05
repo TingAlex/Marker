@@ -5,28 +5,37 @@
       "folder": "default",
       "webLocation": "",
       "lastModefiedTime": "2019-04-13T02:04:37.106Z",
-      "id": "a8acdc3c-b577-4fb7-a197-adf2244169d8"
+      "id": "a8acdc3c-b577-4fb7-a197-adf2244169d8",
+      "pics": []
     },
     {
       "title": "test file 2",
       "folder": "default",
       "webLocation": "",
       "lastModefiedTime": "2019-04-13T02:04:55.711Z",
-      "id": "5b87aa43-3bc1-4ab8-89e6-bb501db15240"
+      "id": "5b87aa43-3bc1-4ab8-89e6-bb501db15240",
+      "pics": []
     },
     {
       "title": "test file 22",
       "folder": "default",
       "webLocation": "",
       "lastModefiedTime": "2019-04-13T02:06:20.411Z",
-      "id": "c0e438c5-176b-4f23-ba71-50302f672a9b"
+      "id": "c0e438c5-176b-4f23-ba71-50302f672a9b",
+      "pics": []
     },
     {
       "title": "Look up the sky",
       "folder": "default",
       "webLocation": "",
       "lastModefiedTime": "2019-05-01T12:16:53.171Z",
-      "id": "4c3ebc86-6f08-4bd4-81fd-be293f7f83e4"
+      "id": "4c3ebc86-6f08-4bd4-81fd-be293f7f83e4",
+      "pics": [
+        {
+          "title": "image.png",
+          "id": "dea6856c-a634-4a3f-9f68-ca1a59d31ce5"
+        }
+      ]
     }
   ],
   "images": [],

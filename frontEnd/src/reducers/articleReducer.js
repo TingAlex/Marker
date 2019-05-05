@@ -22,9 +22,16 @@ export const articleReducer = (
         tempContent: action.content,
         renderContent: action.renderContent
       };
-    case Static.MODIFYRENDERCONTENT:
+    case Static.MODIFY_RENDER_CONTENT:
       return {
         ...state,
+        tempContent: action.content,
+        renderContent: action.renderContent
+      };
+    case Static.MODIFY_CURRENT_CONTENT:
+      return {
+        ...state,
+        currentContent: action.content,
         tempContent: action.content,
         renderContent: action.renderContent
       };

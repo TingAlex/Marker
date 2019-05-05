@@ -102,6 +102,15 @@ var getArticleList = async () => {
   return result;
 };
 
+var savePic = async (base64Pic, currentArticleId) => {
+  // 先用db给图片生成个id
+  let info = await dbSys.savePicToArticle("image.png", currentArticleId);
+  // 将文件保存到本地
+  let result = await fileSys.createPic(base64Pic, currentArticleId, info.id);
+  console.log(result);
+  return result.absolutePath;
+};
+
 module.exports = {
   initFilesFolder,
   createArticle,
@@ -109,7 +118,8 @@ module.exports = {
   saveArticle,
   renameArticle,
   getArticleList,
-  deleteArticle
+  deleteArticle,
+  savePic
 };
 
 // getArticleList();

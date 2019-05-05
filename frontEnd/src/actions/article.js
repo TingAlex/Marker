@@ -66,7 +66,7 @@ export /**
 const renderContent = content => {
   return dispatch => {
     dispatch({
-      type: Static.MODIFYRENDERCONTENT,
+      type: Static.MODIFY_RENDER_CONTENT,
       content,
       renderContent: marked(content)
     });
@@ -130,5 +130,56 @@ export const deleteArticle = id => {
         icon: <Icon type="smile" style={{ color: "#108ee9" }} />
       });
     });
+  };
+};
+
+// 从指定位置起寻找特定字符串，然后替换
+String.prototype.replaceAt = function(searchIndex, removedString, replacement) {
+  let resultIndex = this.indexOf(removedString, searchIndex);
+  let cutoffNumber = removedString.length;
+  return (
+    this.substr(0, resultIndex) +
+    replacement +
+    this.substr(resultIndex + cutoffNumber)
+  );
+};
+
+export /**
+ * 将前端得到的图片文件保存到文章对应的文件夹中，并用图片的绝对地址替换![](pending)中的信息。
+ *
+ * @param {*} file 图片 的 file 类型对象
+ * @param {*} currentArticleId 当前文章 id
+ * @param {*} content 含有(pending)的文章内容
+ * @param {*} insertIndex 精确指出从何处起搜寻(pending)，以防止和用户自己写的内容冲突
+ * @returns
+ */
+const picProcess = (file, currentArticleId, content, insertIndex) => {
+  console.log("copied: " + file.name);
+  return dispatch => {
+    let pending = "(pending...)";
+    var reader = new FileReader();
+    reader.addEventListener(
+      "load",
+      function() {
+        let base64 = event.target.result;
+        console.log(base64);
+        ipcRenderer.send(Static.SAVE_PIC, { base64, currentArticleId });
+        ipcRenderer.once(Static.SAVED_PIC, (event, absolutePath) => {
+          // 把content中从insertIndex起找到(pending...),把这里面的用absolutePath替换一下
+          let finalContent = content.replaceAt(
+            insertIndex,
+            pending,
+            "(" + absolutePath + ")"
+          );
+          dispatch({
+            type: Static.MODIFY_CURRENT_CONTENT,
+            content: finalContent,
+            renderContent: marked(finalContent)
+          });
+        });
+      },
+      false
+    );
+    reader.readAsDataURL(file);
   };
 };

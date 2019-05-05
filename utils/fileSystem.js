@@ -34,7 +34,8 @@ var initArticleAndImageFolder = () => {
  */
 var createArticle = id => {
   return new Promise((resolve, reject) => {
-    let filePath = path.join(ArticleFolder, id + ".md");
+    fs.mkdirSync(path.join(ArticleFolder, id));
+    let filePath = path.join(ArticleFolder, id, id + ".md");
     if (!fs.existsSync(filePath)) {
       fs.writeFile(filePath, "", err => {
         resolve(err ? err : "file created!");
@@ -42,6 +43,21 @@ var createArticle = id => {
     } else {
       reject("file aleardy exists!");
     }
+  });
+};
+
+var createPic = (base64Pic, articleId, picId) => {
+  var base64Data = base64Pic.replace(/^data:image\/\w+;base64,/, "");
+  var dataBuffer = new Buffer(base64Data, "base64");
+  let picPath = path.join(ArticleFolder, articleId, picId + ".png");
+  return new Promise((resolve, reject) => {
+    fs.writeFile(picPath, dataBuffer, err => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve({ absolutePath: picPath, mess: "The file has been saved!" });
+      }
+    });
   });
 };
 
@@ -53,7 +69,7 @@ var createArticle = id => {
  */
 var loadArticle = id => {
   return new Promise((resolve, reject) => {
-    let filePath = path.join(ArticleFolder, id + ".md");
+    let filePath = path.join(ArticleFolder, id, id + ".md");
     fs.readFile(filePath, "utf8", (err, data) => {
       if (err) {
         reject(err);
@@ -72,7 +88,7 @@ var loadArticle = id => {
  */
 var saveArticle = (id, content) => {
   return new Promise((resolve, reject) => {
-    let filePath = path.join(ArticleFolder, id + ".md");
+    let filePath = path.join(ArticleFolder, id, id + ".md");
     fs.writeFile(filePath, content, "utf8", err => {
       if (err) {
         reject(err);
@@ -90,7 +106,7 @@ var saveArticle = (id, content) => {
  */
 var deleteArticle = id => {
   return new Promise((resolve, reject) => {
-    let filePath = path.join(ArticleFolder, id + ".md");
+    let filePath = path.join(ArticleFolder, id);
     fs.unlink(filePath, err => {
       if (err) {
         reject(err);
@@ -117,9 +133,9 @@ module.exports = {
   loadArticle,
   saveArticle,
   listenArticles,
-  deleteArticle
+  deleteArticle,
+  createPic
 };
-
 
 // 测试文件删除
 // let testDeleteFile = async () => {

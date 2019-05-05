@@ -62,6 +62,11 @@ ipcMain.on(Static.DELETE_ARTICLE, async (event, id) => {
   mainWindow.webContents.send(Static.DELETED_ARTICLE, obj);
 });
 
+ipcMain.on(Static.SAVE_PIC, async (event, { base64, currentArticleId }) => {
+  let absolutePath = await oper.savePic(base64, currentArticleId);
+  mainWindow.webContents.send(Static.SAVED_PIC, absolutePath);
+});
+
 // 接收前端数据
 // ipcMain.on('video:submit', (event, path) => {
 //   ffmpeg.ffprobe(path, (err, metadata) => {
