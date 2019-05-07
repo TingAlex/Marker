@@ -2,6 +2,7 @@ const electron = require("electron");
 
 const oper = require("./utils/oper");
 const Static = require("./StaticInfo");
+const contentProcess = require("./utils/contentProcess");
 
 const {
   default: installExtension,
@@ -53,9 +54,16 @@ ipcMain.on(Static.MODIFY_ARTICLE_TITLE, async (event, { id, newTitle }) => {
   mainWindow.webContents.send(Static.MODIFIED_ARTICLE_TITLE, newObj.title);
 });
 
+// 以往的 save_article 不能够处理文章中的图片链接
+// ipcMain.on(Static.SAVE_ARTICLE, async (event, { id, content }) => {
+//   let result = await oper.saveArticle(id, content);
+//   mainWindow.webContents.send(Static.SAVED_ARTICLE, result);
+// });
+
+// 新的 save_article 可以处理图片链接
 ipcMain.on(Static.SAVE_ARTICLE, async (event, { id, content }) => {
-  let result = await oper.saveArticle(id, content);
-  mainWindow.webContents.send(Static.SAVED_ARTICLE, result);
+  let newContent = await contentProcess.saveAndProcessArticle(id, content);
+  mainWindow.webContents.send(Static.SAVED_ARTICLE, newContent);
 });
 
 ipcMain.on(Static.CREATE_ARTICLE, async event => {
@@ -68,16 +76,10 @@ ipcMain.on(Static.DELETE_ARTICLE, async (event, id) => {
   mainWindow.webContents.send(Static.DELETED_ARTICLE, obj);
 });
 
-ipcMain.on(Static.SAVE_PIC, async (event, { base64, currentArticleId }) => {
-  let absolutePath = await oper.savePic(base64, currentArticleId);
-  mainWindow.webContents.send(Static.SAVED_PIC, absolutePath);
-});
-
-// 接收前端数据
-// ipcMain.on('video:submit', (event, path) => {
-//   ffmpeg.ffprobe(path, (err, metadata) => {
-//     // 将数据发送回前端
-//     console.log(metadata.format.duration);
-//     mainWindow.webContents.send('video:metadata', metadata.format.duration);
-//   });
-// });
+ipcMain.on(
+  Static.SAVE_CLIPBOARD_PIC,
+  async (event, { base64, currentArticleId }) => {
+    let absolutePath = await oper.savePastePic(base64, currentArticleId);
+    mainWindow.webContents.send(Static.SAVED_CLIPBOARD_PIC, absolutePath);
+  }
+);

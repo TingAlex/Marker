@@ -69,6 +69,24 @@ const renameArticle = (id, title) => {
 };
 
 /**
+ * 对文章中可能修改过的图片名进行保存
+ *
+ * @param {*} picId 图片 id
+ * @param {*} title 图片新 title
+ * @param {*} articleId 图片所属文章 id
+ * @returns 修改成功的图片信息
+ */
+const renamePicOfArticle = (picId, title, articleId) => {
+  return db
+    .get(ARTICLES)
+    .getById(articleId)
+    .get("pics")
+    .getById(picId)
+    .assign({ title })
+    .write();
+};
+
+/**
  * 获取文章列表
  *
  * @returns 文章列表数组
@@ -77,6 +95,20 @@ const getArticleList = () => {
   return db
     .get(ARTICLES)
     .sortBy("lastModefiedTime")
+    .value();
+};
+
+/**
+ * 获取文章保存与相应文件夹下的图列表信息
+ *
+ * @param {*} id 文章 id
+ * @returns Array 图列表
+ */
+const getArticlePicsInfo = id => {
+  return db
+    .get(ARTICLES)
+    .getById(id)
+    .get("pics")
     .value();
 };
 
@@ -93,12 +125,30 @@ const deleteArticle = id => {
     .write();
 };
 
+/**
+ * 从文章的图列表中删除图片信息
+ *
+ * @param {*} picId 图片 id
+ * @param {*} articleId 文章 id
+ * @returns 删除的图片的信息内容
+ */
+const deletePicInfoFromArticle = (picId, articleId) => {
+  return db
+    .get(ARTICLES)
+    .getById(articleId)
+    .get("pics")
+    .remove({ id: picId }).write();
+};
+
 module.exports = {
   createArticle,
   renameArticle,
   getArticleList,
   deleteArticle,
-  savePicToArticle
+  savePicToArticle,
+  getArticlePicsInfo,
+  renamePicOfArticle,
+  deletePicInfoFromArticle
 };
 
 // console.log(

@@ -1,9 +1,10 @@
 const fs = require("fs-extra");
 const path = require("path");
 const chokidar = require("chokidar");
+const Static = require("../StaticInfo");
 
-const ArticleFolder = path.join(__dirname, "../DataSystem/Articles");
-const ImageFolder = path.join(__dirname, "../DataSystem/Images");
+// const Static.ARTICLE_FOLDER = path.join(__dirname, "../DataSystem/Articles");
+// const Static.IMAGE_FOLDER = path.join(__dirname, "../DataSystem/Images");
 
 /**
  * 初始化文章与图片的本地保存位置
@@ -11,14 +12,14 @@ const ImageFolder = path.join(__dirname, "../DataSystem/Images");
  */
 var initArticleAndImageFolder = () => {
   return new Promise((resolve, reject) => {
-    if (!fs.existsSync(ArticleFolder)) {
-      fs.mkdir(ArticleFolder, { recursive: true }, err => {
+    if (!fs.existsSync(Static.ARTICLE_FOLDER)) {
+      fs.mkdir(Static.ARTICLE_FOLDER, { recursive: true }, err => {
         if (err) reject(err);
         resolve("Init Article Folder Successfully!");
       });
     }
-    if (!fs.existsSync(ImageFolder)) {
-      fs.mkdir(ImageFolder, { recursive: true }, err => {
+    if (!fs.existsSync(Static.IMAGE_FOLDER)) {
+      fs.mkdir(Static.IMAGE_FOLDER, { recursive: true }, err => {
         if (err) reject(err);
         resolve("Init Image Folder Successfully!");
       });
@@ -34,8 +35,8 @@ var initArticleAndImageFolder = () => {
  */
 var createArticle = id => {
   return new Promise((resolve, reject) => {
-    fs.mkdirSync(path.join(ArticleFolder, id));
-    let filePath = path.join(ArticleFolder, id, id + ".md");
+    fs.mkdirSync(path.join(Static.ARTICLE_FOLDER, id));
+    let filePath = path.join(Static.ARTICLE_FOLDER, id, id + ".md");
     if (!fs.existsSync(filePath)) {
       fs.writeFile(filePath, "", err => {
         resolve(err ? err : "file created!");
@@ -46,10 +47,18 @@ var createArticle = id => {
   });
 };
 
+/**
+ * 保存剪贴板粘贴过来的图片
+ *
+ * @param {*} base64Pic 图片的base64编码
+ * @param {*} articleId 目标文章 id（也是图片保存的目标文件夹名称）
+ * @param {*} picId db 为这张图片生成的 id
+ * @returns {absolutePath, mess}
+ */
 var createPic = (base64Pic, articleId, picId) => {
   var base64Data = base64Pic.replace(/^data:image\/\w+;base64,/, "");
   var dataBuffer = new Buffer(base64Data, "base64");
-  let picPath = path.join(ArticleFolder, articleId, picId + ".png");
+  let picPath = path.join(Static.ARTICLE_FOLDER, articleId, picId + ".png");
   return new Promise((resolve, reject) => {
     fs.writeFile(picPath, dataBuffer, err => {
       if (err) {
@@ -69,7 +78,7 @@ var createPic = (base64Pic, articleId, picId) => {
  */
 var loadArticle = id => {
   return new Promise((resolve, reject) => {
-    let filePath = path.join(ArticleFolder, id, id + ".md");
+    let filePath = path.join(Static.ARTICLE_FOLDER, id, id + ".md");
     fs.readFile(filePath, "utf8", (err, data) => {
       if (err) {
         reject(err);
@@ -88,7 +97,7 @@ var loadArticle = id => {
  */
 var saveArticle = (id, content) => {
   return new Promise((resolve, reject) => {
-    let filePath = path.join(ArticleFolder, id, id + ".md");
+    let filePath = path.join(Static.ARTICLE_FOLDER, id, id + ".md");
     fs.writeFile(filePath, content, "utf8", err => {
       if (err) {
         reject(err);
@@ -98,22 +107,6 @@ var saveArticle = (id, content) => {
   });
 };
 
-function delDir(path) {
-  let files = [];
-  if (fs.existsSync(path)) {
-    files = fs.readdirSync(path);
-    files.forEach((file, index) => {
-      let curPath = path + "/" + file;
-      if (fs.statSync(curPath).isDirectory()) {
-        delDir(curPath); //递归删除文件夹
-      } else {
-        fs.unlinkSync(curPath); //删除文件
-      }
-    });
-    fs.rmdirSync(path);
-  }
-}
-
 /**
  * 删除文件所在的整个文件夹！
  *
@@ -122,7 +115,7 @@ function delDir(path) {
  */
 var deleteArticle = id => {
   return new Promise((resolve, reject) => {
-    let filePath = path.join(ArticleFolder, id);
+    let filePath = path.join(Static.ARTICLE_FOLDER, id);
     let files = [];
     files = fs.readdirSync(filePath);
     files.forEach((file, index) => {
@@ -133,6 +126,48 @@ var deleteArticle = id => {
         reject(err);
       }
       resolve("file remove successfully!");
+    });
+  });
+};
+
+/**
+ * 删除文章所在文件夹的指定图片
+ *
+ * @param {*} picId 图片 id
+ * @param {*} articleId 文章 id,也是文章所在文件夹名称
+ * @returns 是否成功删除的信息
+ */
+var deletePicFromArticle = (picId, articleId) => {
+  return new Promise((resolve, reject) => {
+    let filePath = path.join(Static.ARTICLE_FOLDER, articleId, picId + ".png");
+    fs.unlink(filePath, err => {
+      if (err) {
+        reject(err);
+      }
+      resolve(picId + " pic remove successfully!");
+    });
+  });
+};
+
+/**
+ * 将本地其他位置的图片复制到文章所在文件夹下
+ *
+ * @param {*} picPath 原图片地址
+ * @param {*} articleId 目标文章 id
+ * @param {*} picId 图片 id，也是它的新名称
+ * @returns {absolutePath, mess}
+ */
+var saveLocalPic = (picPath, articleId, picId) => {
+  return new Promise((resolve, reject) => {
+    let filePath = path.join(Static.ARTICLE_FOLDER, articleId, picId + ".png");
+    fs.copyFile(picPath, filePath, err => {
+      if (err) {
+        reject(err);
+      }
+      resolve({
+        absolutePath: filePath,
+        mess: picPath + " was copied to " + filePath
+      });
     });
   });
 };
@@ -155,20 +190,22 @@ module.exports = {
   saveArticle,
   listenArticles,
   deleteArticle,
-  createPic
+  createPic,
+  deletePicFromArticle,
+  saveLocalPic
 };
 
 // 测试文件删除
-let testDeleteFile = async () => {
-  try {
-    let result = await deleteArticle("c777cb11-275a-4340-ab33-59b0940f99ca");
-    console.log(result);
-  } catch (e) {
-    console.log(e);
-  }
-};
+// let testDeleteFile = async () => {
+//   try {
+//     let result = await deleteArticle("c777cb11-275a-4340-ab33-59b0940f99ca");
+//     console.log(result);
+//   } catch (e) {
+//     console.log(e);
+//   }
+// };
 
-testDeleteFile();
+// testDeleteFile();
 
 // 测试文件读写
 // let testReadAndWriteArticles = async () => {

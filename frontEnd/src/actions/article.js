@@ -95,9 +95,14 @@ export const saveContent = (id, content) => {
   return dispatch => {
     ipcRenderer.send(Static.SAVE_ARTICLE, { id, content });
     ipcRenderer.once(Static.SAVED_ARTICLE, (event, result) => {
+      dispatch({
+        type: Static.MODIFY_CURRENT_CONTENT,
+        content: result,
+        renderContent: marked(result)
+      });
       notification.open({
         message: "Save Successfully!",
-        description: result,
+        // description: result,
         icon: <Icon type="smile" style={{ color: "#108ee9" }} />
       });
     });
@@ -163,8 +168,11 @@ const picProcess = (file, currentArticleId, content, insertIndex) => {
       function() {
         let base64 = event.target.result;
         console.log(base64);
-        ipcRenderer.send(Static.SAVE_PIC, { base64, currentArticleId });
-        ipcRenderer.once(Static.SAVED_PIC, (event, absolutePath) => {
+        ipcRenderer.send(Static.SAVE_CLIPBOARD_PIC, {
+          base64,
+          currentArticleId
+        });
+        ipcRenderer.once(Static.SAVED_CLIPBOARD_PIC, (event, absolutePath) => {
           // 把 content 中从 insertIndex 起找到 (pending...),把这里面的用 absolutePath 替换一下
           let finalContent = content.replaceAt(
             insertIndex,

@@ -1,4 +1,11 @@
+const path = require("path");
+const ArticleFolder = path.join(__dirname, "/DataSystem/Articles");
+const ImageFolder = path.join(__dirname, "/DataSystem/Images");
+
 module.exports = {
+  // 文件路径
+  ARTICLE_FOLDER: ArticleFolder,
+  IMAGE_FOLDER: ImageFolder,
   // 国际化相关
   DefaultTitle: "Default Title",
   // ipc 相关
@@ -14,8 +21,9 @@ module.exports = {
   CREATED_ARTICLE: "article:createdNew",
   DELETE_ARTICLE: "article:deleteCurrent",
   DELETED_ARTICLE: "article:deletedCurrent",
-  SAVE_PIC: "pic:save",
-  SAVED_PIC: "pic:saved",
+  // 转存剪切板粘贴过来的图片 ipc
+  SAVE_CLIPBOARD_PIC: "pic:save",
+  SAVED_CLIPBOARD_PIC: "pic:saved",
   // action 相关
   ARTICLELIST: "ARTICLE_LIST",
   ARTICLECONTENT: "ARTICLE_CONTENT",
@@ -35,5 +43,5 @@ module.exports = {
   // action Header 相关
   SET_HIGHLIGHT: "SET_HIGHLIGHT",
   // action Pic 相关
-  PIC_PROCESS: "PIC_PROCESS"
+  // PIC_PROCESS: "PIC_PROCESS"
 };
