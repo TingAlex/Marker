@@ -130,9 +130,28 @@ var saveOtherLocalPic = async (title, picPath, currentArticleId) => {
   // 先用db给图片生成个id
   let info = await dbSys.savePicToArticle(title, currentArticleId);
   console.log(info);
-  
+
   // 将文件保存到本文章所在文件夹下
   let result = await fileSys.saveLocalPic(picPath, currentArticleId, info.id);
+  console.log(result);
+  return result.absolutePath;
+};
+
+/**
+ * 将网络图片下载到本文章文件夹下。同时处理了文章中这张图片的title的设置
+ *
+ * @param {*} title 图片 title
+ * @param {*} picWebLink 图片的网络地址
+ * @param {*} currentArticleId 目标文章 id，也是所在文件夹名称
+ * @returns {string} 图片被拷贝后的新路径
+ */
+var saveWebPic = async (title, picWebLink, currentArticleId) => {
+  // 先用db给图片生成个id
+  let info = await dbSys.savePicToArticle(title, currentArticleId);
+  console.log(info);
+
+  // 将文件保存到本文章所在文件夹下
+  let result = await fileSys.saveWebPic(picWebLink, currentArticleId, info.id);
   console.log(result);
   return result.absolutePath;
 };
@@ -146,7 +165,8 @@ module.exports = {
   getArticleList,
   deleteArticle,
   savePastePic,
-  saveOtherLocalPic
+  saveOtherLocalPic,
+  saveWebPic
 };
 
 // getArticleList();

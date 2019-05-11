@@ -2,6 +2,7 @@ const fs = require("fs-extra");
 const path = require("path");
 const chokidar = require("chokidar");
 const Static = require("../StaticInfo");
+const axios = require("axios");
 
 // const Static.ARTICLE_FOLDER = path.join(__dirname, "../DataSystem/Articles");
 // const Static.IMAGE_FOLDER = path.join(__dirname, "../DataSystem/Images");
@@ -28,7 +29,7 @@ var initArticleAndImageFolder = () => {
 };
 
 /**
- * 新建空文件
+ * 新建文章的所在文件夹与一个同名 md 文件
  *
  * @param {string} id
  * @returns {string} 文章是否创建成功的信息
@@ -173,6 +174,44 @@ var saveLocalPic = (picPath, articleId, picId) => {
 };
 
 /**
+ * 将网络图片下载到文章所在文件夹下
+ *
+ * @param {*} picWebLink 图片的网络地址
+ * @param {*} articleId 目标文章 id
+ * @param {*} picId 图片 id，也是它的新名称
+ * @returns {absolutePath, mess}
+ */
+var saveWebPic = async (picWebLink, articleId, picId) => {
+  const url = picWebLink;
+  let filePath = path.join(Static.ARTICLE_FOLDER, articleId, picId + ".png");
+  const writer = fs.createWriteStream(filePath);
+
+  const response = await axios({
+    url,
+    method: "GET",
+    responseType: "stream"
+  });
+
+  response.data.pipe(writer);
+
+  return new Promise((resolve, reject) => {
+    writer.on(
+      "finish",
+      resolve({
+        absolutePath: filePath,
+        mess: picWebLink + " was copied to " + filePath
+      })
+    );
+    writer.on(
+      "error",
+      reject({
+        mess: "error!"
+      })
+    );
+  });
+};
+
+/**
  * 监听文件夹内容的改变
  * TODO: 利用监听做什么？想清楚
  * @param {string} dic
@@ -192,8 +231,21 @@ module.exports = {
   deleteArticle,
   createPic,
   deletePicFromArticle,
-  saveLocalPic
+  saveLocalPic,
+  saveWebPic
 };
+
+// // 测试网图下载
+// let testDownloadWebPic = async () => {
+//   let result = await saveWebPic(
+//     "https://unsplash.com/photos/AaEQmoufHLk/download?force=true",
+//     "4c3ebc86-6f08-4bd4-81fd-be293f7f83e4",
+//     "test"
+//   );
+//   console.log(result);
+// };
+
+// testDownloadWebPic();
 
 // 测试文件删除
 // let testDeleteFile = async () => {

@@ -29,7 +29,7 @@ const splitContentByPics = content => {
  * @param {*} prevPicsInfo 目标文章先前保存的图列表信息
  * @returns 更新后的 content
  */
-const processPicAddress = async (
+const processPicAddressExpWebLink = async (
   { contentArr, picIndexArray },
   currentArticleId,
   prevPicsInfo
@@ -103,14 +103,83 @@ const removePicFromArticle = async (picId, articleId) => {
   console.log("file: ", mess);
 };
 
-const saveAndProcessArticle = async (articleId, content) => {
+/**
+ * 专门处理保存文章后选择发布时，将网链的图片下载到本地，更新好db与file之后写回新的content
+ *
+ * @param {*} { contentArr, picIndexArray } 根据图信息分割好的content数组，以及图信息所在index的数组
+ * @param {*} currentArticleId 目标文章 id
+ * @returns  更新后的 content
+ */
+const processPicAddressOnlyWebLink = async (
+  { contentArr, picIndexArray },
+  currentArticleId
+) => {
+  // node path 生成的路径不能拿到前端直接使用，还是需要将分隔符转一下，并且 C 这个盘符需要大写
+  let currentArticlePath = path
+    .join(Static.ARTICLE_FOLDER, currentArticleId)
+    .replace(/\\/g, "/");
+  currentArticlePath =
+    currentArticlePath[0].toUpperCase() + currentArticlePath.substring(1);
+  // 遍历图信息
+  for (let i = 0; i < picIndexArray.length; i++) {
+    let str = contentArr[picIndexArray[i]];
+    // address 中保存*地址*，作为后续判断的参照
+    let [full, title, address] = /![\[](.*)]\((.*)\)/.exec(str);
+    console.log("address: ", address);
+    if (address.indexOf("http") === 0) {
+      // 一定为网络地址，将网络图片保存下来
+      let absolutePath = await oper.saveWebPic(
+        title,
+        address,
+        currentArticleId
+      );
+      // node path 生成的路径不能拿到前端直接使用，还是需要将分隔符转一下，并且 C 这个盘符需要大写
+      absolutePath = absolutePath.replace(/\\/g, "/");
+      absolutePath = absolutePath[0].toUpperCase() + absolutePath.substring(1);
+      // 将新的路径写回到content的数组中的对应项中
+      contentArr[picIndexArray[i]] = `![${title}](${absolutePath})`;
+    }
+  }
+  // 将切分的数组再拼接回content，将更新的content保存到文件中，再返回
+  let newContent = contentArr.join("");
+  let result = await oper.saveArticle(currentArticleId, newContent);
+  console.log(newContent);
+  return newContent;
+};
+
+/**
+ * 用于处理不包含网络图片链接的文章保存操作。
+ *
+ * @param {*} articleId 文章 id
+ * @param {*} content 文章内容
+ * @returns 处理后且已保存的新文章内容
+ */
+const saveAndProcessArticleExpWebLink = async (articleId, content) => {
   let splitedContent = await splitContentByPics(content);
   let prevPicsInfo = await dbSys.getArticlePicsInfo(articleId);
-  return await processPicAddress(splitedContent, articleId, prevPicsInfo);
+  return await processPicAddressExpWebLink(
+    splitedContent,
+    articleId,
+    prevPicsInfo
+  );
+};
+
+/**
+ * 仅用于处理文章中网络图片链接的文章保存操作。
+ *
+ * @param {*} articleId
+ * @param {*} content
+ * @returns 处理后且已保存的新文章内容
+ */
+const saveAndProcessArticleOnlyWebLink = async (articleId, content) => {
+  let splitedContent = await splitContentByPics(content);
+  // 因为一定是先保存后才可以执行这个函数，所以不再需要提取以前的图列表信息了。
+  return await processPicAddressOnlyWebLink(splitedContent, articleId);
 };
 
 module.exports = {
-  saveAndProcessArticle
+  saveAndProcessArticleExpWebLink,
+  saveAndProcessArticleOnlyWebLink
 };
 
 // const content = `this is me, here I am

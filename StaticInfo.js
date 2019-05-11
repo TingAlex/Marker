@@ -3,6 +3,8 @@ const ArticleFolder = path.join(__dirname, "/DataSystem/Articles");
 const ImageFolder = path.join(__dirname, "/DataSystem/Images");
 
 module.exports = {
+  // 文件上传路径
+  UPLOAD_TARGET_LINK: { host: "localhost", port: "5000", path: "/upload/" },
   // 文件路径
   ARTICLE_FOLDER: ArticleFolder,
   IMAGE_FOLDER: ImageFolder,
@@ -13,8 +15,10 @@ module.exports = {
   SEND_ARTICLE_LIST: "article:sendList",
   GET_ARTICLE_CONTENT: "article:getContent",
   SEND_ARTICLE_CONTENT: "article:sendContent",
-  SAVE_ARTICLE: "article:save",
-  SAVED_ARTICLE: "article:saved",
+  SAVE_ARTICLE_EXP_WEBLINK: "article:saveExpWeblink",
+  SAVED_ARTICLE_EXP_WEBLINK: "article:savedExpWeblink",
+  SAVE_ARTICLE_ONLY_WEBLINK: "article:saveOnlyWeblink",
+  SAVED_ARTICLE_ONLY_WEBLINK: "article:savedOnlyWeblink",
   MODIFY_ARTICLE_TITLE: "article:modifyTitle",
   MODIFIED_ARTICLE_TITLE: "article:modifiedTitle",
   CREATE_ARTICLE: "article:createNew",
@@ -41,7 +45,7 @@ module.exports = {
   FETCH_USER: "FETCH_USER",
   LOGIN_ERROR: "LOGIN_ERROR",
   // action Header 相关
-  SET_HIGHLIGHT: "SET_HIGHLIGHT",
+  SET_HIGHLIGHT: "SET_HIGHLIGHT"
   // action Pic 相关
   // PIC_PROCESS: "PIC_PROCESS"
 };

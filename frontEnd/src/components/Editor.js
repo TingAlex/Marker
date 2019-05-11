@@ -8,7 +8,7 @@ class Editor extends React.Component {
     this.props.renderContent(e.target.innerText);
   };
   /**
-   * 将图片保存为文件，并暂时插入![filename](pending...)
+   * 将图片保存为文件，并暂时插入![filename](pending...)，再将修改后的图片信息插入回文章
    *
    * @memberof Editor
    */

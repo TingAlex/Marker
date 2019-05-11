@@ -3,11 +3,12 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import * as action from "../actions/header";
 
-import { Menu } from "antd";
+import axios from "axios";
+
+import { Menu, Button } from "antd";
 
 class Header extends React.Component {
   handleClick = e => {
-    console.log("click ", e);
     this.props.setHighlight(e.key);
   };
 

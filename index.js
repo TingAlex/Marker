@@ -60,11 +60,23 @@ ipcMain.on(Static.MODIFY_ARTICLE_TITLE, async (event, { id, newTitle }) => {
 //   mainWindow.webContents.send(Static.SAVED_ARTICLE, result);
 // });
 
-// 新的 save_article 可以处理图片链接
-ipcMain.on(Static.SAVE_ARTICLE, async (event, { id, content }) => {
-  let newContent = await contentProcess.saveAndProcessArticle(id, content);
-  mainWindow.webContents.send(Static.SAVED_ARTICLE, newContent);
+// 可以处理不包括网络图片的其他本地链接
+ipcMain.on(Static.SAVE_ARTICLE_EXP_WEBLINK, async (event, { id, content }) => {
+  let newContent = await contentProcess.saveAndProcessArticleExpWebLink(
+    id,
+    content
+  );
+  mainWindow.webContents.send(Static.SAVED_ARTICLE_EXP_WEBLINK, newContent);
 });
+
+// 专门处理网络图片的其他本地链接
+ipcMain.on(Static.SAVE_ARTICLE_ONLY_WEBLINK, async (event, { id, content }) => {
+  let newContent = await contentProcess.saveAndProcessArticleOnlyWebLink(
+    id,
+    content
+  );
+  mainWindow.webContents.send(Static.SAVED_ARTICLE_ONLY_WEBLINK, newContent);
+}); 
 
 ipcMain.on(Static.CREATE_ARTICLE, async event => {
   let obj = await oper.createArticle(Static.DefaultTitle);

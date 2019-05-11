@@ -32,6 +32,8 @@ const createArticle = title => {
       folder: "default",
       webLocation: "",
       lastModefiedTime: new Date(),
+      published: false,
+      publicLink: "",
       pics: []
     })
     .write();
@@ -137,7 +139,8 @@ const deletePicInfoFromArticle = (picId, articleId) => {
     .get(ARTICLES)
     .getById(articleId)
     .get("pics")
-    .remove({ id: picId }).write();
+    .remove({ id: picId })
+    .write();
 };
 
 module.exports = {

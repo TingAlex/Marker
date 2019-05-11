@@ -8,7 +8,8 @@ import {
   changeTitle,
   saveContent,
   createArticle,
-  deleteArticle
+  deleteArticle,
+  transWeblinkSaveContent
 } from "../actions/article";
 import ArticleList from "./ArticleList";
 import Editor from "./Editor";
@@ -38,6 +39,13 @@ class Dashboard extends React.Component {
   };
   saveContent = () => {
     this.props.saveContentChanges(
+      this.props.currentArticle.id,
+      this.props.tempContent
+    );
+  };
+  // 将文章中的网络图片下载到本地并替换、保存
+  transWebLinkPic = () => {
+    this.props.transWebLinkPicAndSaveArticle(
       this.props.currentArticle.id,
       this.props.tempContent
     );
@@ -89,7 +97,9 @@ class Dashboard extends React.Component {
                 <Button type="primary" onClick={this.saveContent}>
                   Save
                 </Button>
-                <Button type="danger">Discard</Button>
+                <Button type="primary" onClick={this.transWebLinkPic}>
+                  TransWeblink
+                </Button>
                 {/* <Button>Default</Button> */}
                 <Button type="dashed">Output</Button>
               </Col>
@@ -137,6 +147,9 @@ const mapDispatchToProps = dispatch => ({
   },
   deleteCurrentArticle: id => {
     dispatch(deleteArticle(id));
+  },
+  transWebLinkPicAndSaveArticle: (id, content) => {
+    dispatch(transWeblinkSaveContent(id, content));
   }
 });
 

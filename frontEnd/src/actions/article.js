@@ -93,8 +93,8 @@ const changeTitle = (id, newTitle) => {
 
 export const saveContent = (id, content) => {
   return dispatch => {
-    ipcRenderer.send(Static.SAVE_ARTICLE, { id, content });
-    ipcRenderer.once(Static.SAVED_ARTICLE, (event, result) => {
+    ipcRenderer.send(Static.SAVE_ARTICLE_EXP_WEBLINK, { id, content });
+    ipcRenderer.once(Static.SAVED_ARTICLE_EXP_WEBLINK, (event, result) => {
       dispatch({
         type: Static.MODIFY_CURRENT_CONTENT,
         content: result,
@@ -190,5 +190,29 @@ const picProcess = (file, currentArticleId, content, insertIndex) => {
       false
     );
     reader.readAsDataURL(file);
+  };
+};
+
+export /**
+ * 将保存后的文章中的网络链接图片下载到本地，并替换、保存文章中的链接。
+ *
+ * @param {*} id 文章 id
+ * @returns
+ */
+const transWeblinkSaveContent = (id, content) => {
+  return dispatch => {
+    ipcRenderer.send(Static.SAVE_ARTICLE_ONLY_WEBLINK, { id, content });
+    ipcRenderer.once(Static.SAVED_ARTICLE_ONLY_WEBLINK, (event, result) => {
+      dispatch({
+        type: Static.MODIFY_CURRENT_CONTENT,
+        content: result,
+        renderContent: marked(result)
+      });
+      notification.open({
+        message: "WebLink Save Successfully!",
+        // description: result,
+        icon: <Icon type="smile" style={{ color: "#108ee9" }} />
+      });
+    });
   };
 };
