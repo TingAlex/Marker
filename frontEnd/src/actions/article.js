@@ -4,6 +4,7 @@ import marked from "marked";
 
 import React from "react";
 import { notification, Icon } from "antd";
+import { fetchUser } from "./user";
 
 var rendererMD = new marked.Renderer();
 
@@ -212,6 +213,26 @@ const transWeblinkSaveContent = (id, content) => {
         message: "WebLink Save Successfully!",
         // description: result,
         icon: <Icon type="smile" style={{ color: "#108ee9" }} />
+      });
+    });
+  };
+};
+
+export const uploadArticleToServer = (articleId, userId) => {
+  return dispatch => {
+    ipcRenderer.send(Static.PUBLIC_ARTICLE, { articleId, userId });
+    ipcRenderer.once(Static.NEED_HELP_RENDER_HTML, (event, content) => {
+      ipcRenderer.send(Static.AFTER_RENDER_HTML, {
+        articleId,
+        userId,
+        renderedContent: marked(content)
+      });
+      ipcRenderer.once(Static.PUBLICED_ARTICLE, (event, article) => {
+        fetchUser();
+        dispatch({
+          type: Static.UPDATE_AN_ARTICLE_INFO,
+          article
+        });
       });
     });
   };

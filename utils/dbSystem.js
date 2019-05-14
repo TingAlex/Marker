@@ -88,6 +88,14 @@ const renamePicOfArticle = (picId, title, articleId) => {
     .write();
 };
 
+const setPublicStateOfArticle = (articleId, webLink) => {
+  return db
+    .get(ARTICLES)
+    .getById(articleId)
+    .assign({ published: true, publicLink: webLink })
+    .write();
+};
+
 /**
  * 获取文章列表
  *
@@ -111,6 +119,19 @@ const getArticlePicsInfo = id => {
     .get(ARTICLES)
     .getById(id)
     .get("pics")
+    .value();
+};
+
+/**
+ * 获取一篇文章的所有信息
+ *
+ * @param {*} id 文章 id
+ * @returns {} 文章信息
+ */
+const getArticleInfo = id => {
+  return db
+    .get(ARTICLES)
+    .getById(id)
     .value();
 };
 
@@ -150,8 +171,10 @@ module.exports = {
   deleteArticle,
   savePicToArticle,
   getArticlePicsInfo,
+  getArticleInfo,
   renamePicOfArticle,
-  deletePicInfoFromArticle
+  deletePicInfoFromArticle,
+  setPublicStateOfArticle
 };
 
 // console.log(

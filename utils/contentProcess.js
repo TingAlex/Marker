@@ -177,9 +177,83 @@ const saveAndProcessArticleOnlyWebLink = async (articleId, content) => {
   return await processPicAddressOnlyWebLink(splitedContent, articleId);
 };
 
+/**
+ * 专门处理文章后发布后，本地图片都已经上传完毕，需要将本地图片地址改成服务器地址。
+ * 但是不写回文档，只是为了生成 html 发给服务器保存起来
+ *
+ * @param {*} { contentArr, picIndexArray } 根据图信息分割好的content数组，以及图信息所在index的数组
+ * @param {*} currentArticleId 目标文章 id
+ * @param {*} userId 用户在服务器端的 id
+ * @returns  更新后的 content
+ */
+const processLocalToWebLink = (
+  { contentArr, picIndexArray },
+  articleId,
+  userId = ""
+) => {
+  // node path 生成的路径不能拿到前端直接使用，还是需要将分隔符转一下，并且 C 这个盘符需要大写
+  let currentArticlePath = path
+    .join(Static.ARTICLE_FOLDER, articleId)
+    .replace(/\\/g, "/");
+  currentArticlePath =
+    currentArticlePath[0].toUpperCase() + currentArticlePath.substring(1);
+  // 遍历图信息
+  for (let i = 0; i < picIndexArray.length; i++) {
+    let str = contentArr[picIndexArray[i]];
+    // address 中保存*地址*，作为后续判断的参照
+    let [full, title, address] = /![\[](.*)]\((.*)\)/.exec(str);
+    console.log("address: ", address);
+    if (address.indexOf(currentArticlePath) !== -1) {
+      // 一定为本文章本地地址,现在替换为服务器地址
+      let preFixPath = Static.ARTICLE_FOLDER.replace(/\\/g, "/");
+      preFixPath = preFixPath[0].toUpperCase() + preFixPath.substring(1);
+      let webLink = address.replace(
+        preFixPath,
+        "http://localhost:5000/uploads/" + userId
+      );
+      // 将新的路径写回到content的数组中的对应项中
+      contentArr[picIndexArray[i]] = `![${title}](${webLink})`;
+    }
+  }
+  // 将切分的数组再拼接回content，将更新的content保存到文件中，再返回
+  let newContent = contentArr.join("");
+  console.log(newContent);
+  return newContent;
+};
+
+const translateLocalToWebLink = (content, articleId, userId) => {
+  let splitedContent = splitContentByPics(content);
+  return processLocalToWebLink(splitedContent, articleId, userId);
+};
+
+// let contentTest = `this is me, here I am
+// this is me, here I am
+// this is me, here I am
+// this is me, here I am
+// tingtweraweferthsrtgaer
+
+// ![imageTestName](C:/Users/Ting/Documents/Elec/marker/markerElec/DataSystem/Articles/a8acdc3c-b577-4fb7-a197-adf2244169d8/8b97e49a-fe0a-4a32-bf96-2094ad78988e.png)
+
+// ergaerg
+
+// ![haha.png](C:/Users/Ting/Documents/Elec/marker/markerElec/DataSystem/Articles/a8acdc3c-b577-4fb7-a197-adf2244169d8/758e014f-aafe-49f8-9081-56c770175c35.png)
+
+// ergaerg;
+// ergaerg
+
+// ![haha.png](C:/Users/Ting/Documents/Elec/marker/markerElec/DataSystem/Articles/a8acdc3c-b577-4fb7-a197-adf2244169d8/f3bd442b-bd79-415e-9c4a-d80cbf06d64b.png)
+
+// // ergaerg`;
+// translateLocalToWebLink(
+//   contentTest,
+//   "a8acdc3c-b577-4fb7-a197-adf2244169d8",
+//   "5cd90b2e1006813c1031c428"
+// );
+
 module.exports = {
   saveAndProcessArticleExpWebLink,
-  saveAndProcessArticleOnlyWebLink
+  saveAndProcessArticleOnlyWebLink,
+  translateLocalToWebLink
 };
 
 // const content = `this is me, here I am

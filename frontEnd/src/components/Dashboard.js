@@ -9,7 +9,8 @@ import {
   saveContent,
   createArticle,
   deleteArticle,
-  transWeblinkSaveContent
+  transWeblinkSaveContent,
+  uploadArticleToServer
 } from "../actions/article";
 import ArticleList from "./ArticleList";
 import Editor from "./Editor";
@@ -50,6 +51,11 @@ class Dashboard extends React.Component {
       this.props.tempContent
     );
   };
+  uploadArticle = () => {
+    this.props.uploadArticle(this.props.currentArticle.id, this.props.auth._id);
+  };
+
+  withdrawArticle = () => {};
 
   render() {
     return (
@@ -76,7 +82,7 @@ class Dashboard extends React.Component {
                   onClick={this.toggleSider}
                 />
               </Col>
-              <Col span={16}>
+              <Col span={12}>
                 {this.props.dashboard.titleToggle ? (
                   <div onClick={this.toggleTitle}>
                     {this.props.currentArticle &&
@@ -93,18 +99,51 @@ class Dashboard extends React.Component {
                   />
                 )}
               </Col>
-              <Col span={6}>
+              <Col span={10}>
                 <Button type="primary" onClick={this.saveContent}>
                   Save
                 </Button>
                 <Button type="primary" onClick={this.transWebLinkPic}>
                   TransWeblink
                 </Button>
+                {this.props.currentArticle &&
+                this.props.currentArticle.published ? (
+                  <React.Fragment>
+                    <Button type="primary" onClick={this.uploadArticle}>
+                      RePublic
+                    </Button>
+                    <Button type="primary" onClick={this.withdrawArticle}>
+                      GoPrivate
+                    </Button>
+                  </React.Fragment>
+                ) : (
+                  <Button type="primary" onClick={this.uploadArticle}>
+                    GoPublic
+                  </Button>
+                )}
                 {/* <Button>Default</Button> */}
                 <Button type="dashed">Output</Button>
               </Col>
             </Row>
           </Header>
+          {this.props.currentArticle && this.props.currentArticle.published ? (
+            <Content
+              style={{
+                margin: "24px 16px",
+                padding: 24,
+                background: "#fff",
+                minHeight: 50
+              }}
+            >
+              <Row>
+                <Col span={24}>
+                  <a>{this.props.currentArticle.publicLink}</a>
+                </Col>
+              </Row>
+            </Content>
+          ) : (
+            <div />
+          )}
           <Content
             style={{
               margin: "24px 16px",
@@ -121,8 +160,9 @@ class Dashboard extends React.Component {
   }
 }
 
-const mapStateToProps = ({ dashboard, article }) => ({
+const mapStateToProps = ({ dashboard, article, auth }) => ({
   dashboard,
+  auth,
   currentArticle: article.articleList.filter(
     item => item.id === article.currentArticleId
   )[0],
@@ -150,6 +190,9 @@ const mapDispatchToProps = dispatch => ({
   },
   transWebLinkPicAndSaveArticle: (id, content) => {
     dispatch(transWeblinkSaveContent(id, content));
+  },
+  uploadArticle: (articleId, userId) => {
+    dispatch(uploadArticleToServer(articleId, userId));
   }
 });
 

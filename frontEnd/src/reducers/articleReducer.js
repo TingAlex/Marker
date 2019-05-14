@@ -64,6 +64,14 @@ export const articleReducer = (
           return item.id !== action.id;
         })
       };
+    case Static.UPDATE_AN_ARTICLE_INFO:
+      let tempList = [...state.articleList];
+      for (let i = 0; i < tempList.length; i++) {
+        if (tempList[i].id === action.article.id) {
+          tempList[i] = action.article;
+        }
+      }
+      return { ...state, articleList: tempList };
     default:
       return state;
   }

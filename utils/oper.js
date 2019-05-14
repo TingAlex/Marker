@@ -156,6 +156,16 @@ var saveWebPic = async (title, picWebLink, currentArticleId) => {
   return result.absolutePath;
 };
 
+var getAnArticleInfo = async id => {
+  let info = await dbSys.getArticleInfo(id);
+  return info;
+};
+
+var setPublicArticle = async (articleId, webLink) => {
+  let info = await dbSys.setPublicStateOfArticle(articleId, webLink);
+  return info;
+};
+
 module.exports = {
   initFilesFolder,
   createArticle,
@@ -166,7 +176,9 @@ module.exports = {
   deleteArticle,
   savePastePic,
   saveOtherLocalPic,
-  saveWebPic
+  saveWebPic,
+  getAnArticleInfo,
+  setPublicArticle
 };
 
 // getArticleList();

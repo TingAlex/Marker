@@ -5,9 +5,15 @@ const ImageFolder = path.join(__dirname, "/DataSystem/Images");
 module.exports = {
   // 文件上传路径
   UPLOAD_TARGET_LINK: { host: "localhost", port: "5000", path: "/upload/" },
+  // 文章验证与请求图片上传路径
+  ANALYSE_PICS_NEEDED: "http://localhost:5000/article_analyse",
+  PIC_WEB_LINK: "http://localhost:5000/upload/",
+  UPLOAD_CONTENT_LINK: "http://localhost:5000/article_content/",
   // 文件路径
   ARTICLE_FOLDER: ArticleFolder,
   IMAGE_FOLDER: ImageFolder,
+  // 文章在服务器用户的对应文章文件夹下的命名
+  WEB_ARTICLE_NAME: "index.html",
   // 国际化相关
   DefaultTitle: "Default Title",
   // ipc 相关
@@ -25,6 +31,11 @@ module.exports = {
   CREATED_ARTICLE: "article:createdNew",
   DELETE_ARTICLE: "article:deleteCurrent",
   DELETED_ARTICLE: "article:deletedCurrent",
+  PUBLIC_ARTICLE: "article:goPublic",
+  // 帮助后端渲染出 html 的内容
+  NEED_HELP_RENDER_HTML: "article:helpRenderHtml",
+  AFTER_RENDER_HTML: "article:afterRenderHtml",
+  PUBLICED_ARTICLE: "article:goPubliced",
   // 转存剪切板粘贴过来的图片 ipc
   SAVE_CLIPBOARD_PIC: "pic:save",
   SAVED_CLIPBOARD_PIC: "pic:saved",
@@ -45,7 +56,10 @@ module.exports = {
   FETCH_USER: "FETCH_USER",
   LOGIN_ERROR: "LOGIN_ERROR",
   // action Header 相关
-  SET_HIGHLIGHT: "SET_HIGHLIGHT"
+  SET_HIGHLIGHT: "SET_HIGHLIGHT",
+  // action 更新一篇文章的信息
+  UPDATE_AN_ARTICLE_INFO: "UPDATE_AN_ARTICLE_INFO"
+
   // action Pic 相关
   // PIC_PROCESS: "PIC_PROCESS"
 };
