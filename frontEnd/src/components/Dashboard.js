@@ -122,7 +122,7 @@ class Dashboard extends React.Component {
                   </Button>
                 )}
                 {/* <Button>Default</Button> */}
-                <Button type="dashed">Output</Button>
+                {/* <Button type="dashed">Output</Button> */}
               </Col>
             </Row>
           </Header>

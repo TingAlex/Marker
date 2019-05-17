@@ -14,7 +14,7 @@ const fileSys = require("./fileSystem");
  * @returns {string} 文件夹是否创建成功的信息
  */
 var initFilesFolder = async () => {
-  let result = await fileSys.initArticleAndImageFolder();
+  let result = await fileSys.initArticleFolder();
   return result;
 };
 

@@ -12,9 +12,9 @@ export const articleReducer = (
   action
 ) => {
   switch (action.type) {
-    case Static.ARTICLELIST:
+    case Static.ARTICLE_LIST:
       return { ...state, articleList: [...action.articleList] };
-    case Static.ARTICLECONTENT:
+    case Static.ARTICLE_CONTENT:
       return {
         ...state,
         currentArticleId: action.id,

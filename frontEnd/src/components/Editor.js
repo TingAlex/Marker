@@ -33,7 +33,9 @@ class Editor extends React.Component {
     selection.deleteFromDocument();
     selection
       .getRangeAt(0)
-      .insertNode(document.createTextNode(`\n\n![${file.name}](pending...)\n\n`));
+      .insertNode(
+        document.createTextNode(`\n\n![${file.name}](pending...)\n\n`)
+      );
     // 通过比较 prevContent 与 newContent，计算出 ![filename](pending...) 的 index，然后替换其中的图片地址
     const prevContent = this.props.article.tempContent;
     // 这里一定要进行 await，否则两个 content 会是完全相等的。
@@ -69,7 +71,7 @@ class Editor extends React.Component {
             </div>
           </Col>
           <Col span={12}>
-            <div
+            <div id="renderedContent"
               dangerouslySetInnerHTML={{
                 __html: this.props.article.renderContent
               }}

@@ -4,7 +4,7 @@ import marked from "marked";
 
 import React from "react";
 import { notification, Icon } from "antd";
-import { fetchUser } from "./user";
+import axios from "axios";
 
 var rendererMD = new marked.Renderer();
 
@@ -33,7 +33,7 @@ export const articleList = () => {
   return dispatch => {
     ipcRenderer.send(Static.GET_ARTICLE_LIST);
     ipcRenderer.once(Static.SEND_ARTICLE_LIST, (event, articleList) => {
-      dispatch({ type: Static.ARTICLELIST, articleList });
+      dispatch({ type: Static.ARTICLE_LIST, articleList });
     });
   };
 };
@@ -49,7 +49,7 @@ const articleContent = id => {
     ipcRenderer.send(Static.GET_ARTICLE_CONTENT, id);
     ipcRenderer.once(Static.SEND_ARTICLE_CONTENT, (event, content) => {
       dispatch({
-        type: Static.ARTICLECONTENT,
+        type: Static.ARTICLE_CONTENT,
         content,
         id,
         renderContent: marked(content)
@@ -218,7 +218,14 @@ const transWeblinkSaveContent = (id, content) => {
   };
 };
 
-export const uploadArticleToServer = (articleId, userId) => {
+export /**
+ * 将文章发布到服务器端，同时需要更新用户的数据（目标数据spaceUsed）
+ *
+ * @param {*} articleId 文章 id
+ * @param {*} userId 用户 id
+ * @returns
+ */
+const uploadArticleToServer = (articleId, userId) => {
   return dispatch => {
     ipcRenderer.send(Static.PUBLIC_ARTICLE, { articleId, userId });
     ipcRenderer.once(Static.NEED_HELP_RENDER_HTML, (event, content) => {
@@ -227,11 +234,19 @@ export const uploadArticleToServer = (articleId, userId) => {
         userId,
         renderedContent: marked(content)
       });
-      ipcRenderer.once(Static.PUBLICED_ARTICLE, (event, article) => {
-        fetchUser();
+      ipcRenderer.once(Static.PUBLICED_ARTICLE, async (event, article) => {
         dispatch({
           type: Static.UPDATE_AN_ARTICLE_INFO,
           article
+        });
+        notification.open({
+          message: "Article Republic Successfully!",
+          icon: <Icon type="smile" style={{ color: "#108ee9" }} />
+        });
+        const res = await axios.get("/api/current_user");
+        dispatch({
+          type: Static.FETCH_USER,
+          payload: res.data
         });
       });
     });

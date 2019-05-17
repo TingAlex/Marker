@@ -43,6 +43,9 @@ app.on("ready", async () => {
 
 ipcMain.on(Static.GET_ARTICLE_LIST, async event => {
   let list = await oper.getArticleList();
+  console.log("********list is*********");
+  console.log(list);
+
   mainWindow.webContents.send(Static.SEND_ARTICLE_LIST, list);
 });
 
@@ -81,7 +84,7 @@ ipcMain.on(Static.SAVE_ARTICLE_ONLY_WEBLINK, async (event, { id, content }) => {
 });
 
 ipcMain.on(Static.CREATE_ARTICLE, async event => {
-  let obj = await oper.createArticle(Static.DefaultTitle);
+  let obj = await oper.createArticle(Static.DEFAULT_TITLE);
   mainWindow.webContents.send(Static.CREATED_ARTICLE, obj);
 });
 

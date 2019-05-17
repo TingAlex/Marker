@@ -4,25 +4,16 @@ const chokidar = require("chokidar");
 const Static = require("../StaticInfo");
 const axios = require("axios");
 
-// const Static.ARTICLE_FOLDER = path.join(__dirname, "../DataSystem/Articles");
-// const Static.IMAGE_FOLDER = path.join(__dirname, "../DataSystem/Images");
-
 /**
- * 初始化文章与图片的本地保存位置
+ * 初始化文章本地保存位置
  * @returns {string} 文件夹是否创建成功的信息
  */
-var initArticleAndImageFolder = () => {
+var initArticleFolder = () => {
   return new Promise((resolve, reject) => {
     if (!fs.existsSync(Static.ARTICLE_FOLDER)) {
       fs.mkdir(Static.ARTICLE_FOLDER, { recursive: true }, err => {
         if (err) reject(err);
         resolve("Init Article Folder Successfully!");
-      });
-    }
-    if (!fs.existsSync(Static.IMAGE_FOLDER)) {
-      fs.mkdir(Static.IMAGE_FOLDER, { recursive: true }, err => {
-        if (err) reject(err);
-        resolve("Init Image Folder Successfully!");
       });
     }
   });
@@ -223,7 +214,7 @@ var listenArticles = dic => {
 };
 
 module.exports = {
-  initArticleAndImageFolder,
+  initArticleFolder,
   createArticle,
   loadArticle,
   saveArticle,
