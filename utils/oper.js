@@ -152,6 +152,7 @@ var saveWebPic = async (title, picWebLink, currentArticleId) => {
 
   // 将文件保存到本文章所在文件夹下
   let result = await fileSys.saveWebPic(picWebLink, currentArticleId, info.id);
+  console.log("************file saved info*********");
   console.log(result);
   return result.absolutePath;
 };
@@ -163,6 +164,11 @@ var getAnArticleInfo = async id => {
 
 var setPublicArticle = async (articleId, webLink) => {
   let info = await dbSys.setPublicStateOfArticle(articleId, webLink);
+  return info;
+};
+
+var setPrivateArticle = async articleId => {
+  let info = await dbSys.setPrivateStateOfArticle(articleId);
   return info;
 };
 
@@ -178,7 +184,8 @@ module.exports = {
   saveOtherLocalPic,
   saveWebPic,
   getAnArticleInfo,
-  setPublicArticle
+  setPublicArticle,
+  setPrivateArticle
 };
 
 // getArticleList();

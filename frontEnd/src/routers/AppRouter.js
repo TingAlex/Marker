@@ -11,7 +11,6 @@ import Header from "../components/Header";
 class AppRouter extends React.Component {
   componentDidMount() {
     this.props.fetchUser();
-    // this.props.fetchPics();
   }
   render() {
     return (

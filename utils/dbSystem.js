@@ -96,6 +96,14 @@ const setPublicStateOfArticle = (articleId, webLink) => {
     .write();
 };
 
+const setPrivateStateOfArticle = articleId => {
+  return db
+    .get(ARTICLES)
+    .getById(articleId)
+    .assign({ published: false, publicLink: "" })
+    .write();
+};
+
 /**
  * 获取文章列表
  *
@@ -174,7 +182,8 @@ module.exports = {
   getArticleInfo,
   renamePicOfArticle,
   deletePicInfoFromArticle,
-  setPublicStateOfArticle
+  setPublicStateOfArticle,
+  setPrivateStateOfArticle
 };
 
 // console.log(

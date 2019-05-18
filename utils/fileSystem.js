@@ -184,21 +184,21 @@ var saveWebPic = async (picWebLink, articleId, picId) => {
   });
 
   response.data.pipe(writer);
-
+  console.log("********fileSys: save web pic***********");
   return new Promise((resolve, reject) => {
-    writer.on(
-      "finish",
+    writer.on("finish", () => {
+      console.log("************pipe finish********");
       resolve({
         absolutePath: filePath,
         mess: picWebLink + " was copied to " + filePath
-      })
-    );
-    writer.on(
-      "error",
+      });
+    });
+    writer.on("error", () => {
+      console.log("************pipe error********");
       reject({
         mess: "error!"
-      })
-    );
+      });
+    });
   });
 };
 

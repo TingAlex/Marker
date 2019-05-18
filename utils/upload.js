@@ -39,14 +39,6 @@ const transferPicsOfArticle = async (articleId, limitArr = []) => {
   let filesRelatedPath = [];
   filesRelatedPath = fs.readdirSync(articlePath);
   const form = new FormData();
-  // if (limitArr.length === 0) {
-  //   filesRelatedPath.forEach((fileRelaPath, index) => {
-  //     if (path.extname(fileRelaPath) === ".png") {
-  //       let file = fs.createReadStream(path.join(articlePath, fileRelaPath));
-  //       form.append("userFiles", file);
-  //     }
-  //   });
-  // } else {
   let limitSet = new Set();
   for (let i = 0; i < limitArr.length; i++) {
     limitSet.add(limitArr[i].id);
@@ -60,7 +52,6 @@ const transferPicsOfArticle = async (articleId, limitArr = []) => {
       form.append("userFiles", file);
     }
   });
-  // }
   let cookiesArr = await getCookie();
   let expressCookie = cookiesArr[0];
   // let expressSigCookie = cookiesArr[1];
@@ -91,23 +82,12 @@ const transferPicsOfArticle = async (articleId, limitArr = []) => {
           reject(err);
         } else {
           console.log("we got right info!");
-          // console.log(res);
           resolve(res);
         }
       }
     );
   });
 };
-
-// ${expressSigCookie.name}=${expressSigCookie.value};domain=${
-//             expressSigCookie.domain
-//           };hostOnly=${expressSigCookie.hostOnly};path=${
-//             expressSigCookie.path
-//           };secure=${expressSigCookie.secure};httpOnly=${
-//             expressSigCookie.httpOnly
-//           };session=${expressSigCookie.session};expirationDate=${
-//             expressSigCookie.expirationDate
-//           }
 
 const sendArticleInfo = async info => {
   let cookiesArr = await getCookie();
@@ -120,11 +100,6 @@ const sendArticleInfo = async info => {
   );
   console.log("***********articleInfo is**********");
   console.log(info);
-
-  // console.log(
-  //   "expressSigCookie is*****************:" + JSON.stringify(expressSigCookie)
-  // );
-
   let result = await axios.post(
     Static.ANALYSE_PICS_NEEDED,
     {
@@ -179,22 +154,11 @@ const sendRenderedContent = async (articleId, renderedContent) => {
   return webLink;
 };
 
-// ${expressSigCookie.name}=${expressSigCookie.value};domain=${
-//           expressSigCookie.domain
-//         };hostOnly=${expressSigCookie.hostOnly};path=${
-//           expressSigCookie.path
-//         };secure=${expressSigCookie.secure};httpOnly=${
-//           expressSigCookie.httpOnly
-//         };session=${expressSigCookie.session};expirationDate=${
-//           expressSigCookie.expirationDate
-//         }
-
 module.exports = {
   transferPicsOfArticle,
   sendArticleInfo,
   clearCookie,
   sendRenderedContent
-  // clearEverything
 };
 
 // sendArticleInfo();

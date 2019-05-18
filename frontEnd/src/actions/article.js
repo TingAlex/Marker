@@ -122,20 +122,80 @@ export const createArticle = () => {
   };
 };
 
-export const deleteArticle = id => {
+export const deleteArticle = (id, published) => {
   return dispatch => {
     ipcRenderer.send(Static.DELETE_ARTICLE, id);
-    ipcRenderer.once(Static.DELETED_ARTICLE, (event, article) => {
+    ipcRenderer.once(Static.DELETED_ARTICLE, async (event, article) => {
       dispatch({
         type: Static.REMOVE_ARTICLE,
         id
       });
       notification.open({
         message: "Delete Successfully!",
-        description: article[0].title,
+        description: article.title,
         icon: <Icon type="smile" style={{ color: "#108ee9" }} />
       });
+      if (published) {
+        let result = await axios.post(Static.NEED_DELETE_ARTICLE, {
+          // 因为后端的参数需求，这里不得不传递一个对象数组，对象都有id属性。
+          deleteArticleArr: [{ id }]
+        });
+        console.log(result);
+        if (result.data === "ok") {
+          notification.open({
+            message: "Remote Delete Successfully!",
+            description: article.title,
+            icon: <Icon type="smile" style={{ color: "#108ee9" }} />
+          });
+          const res = await axios.get("/api/current_user");
+          dispatch({
+            type: Static.FETCH_USER,
+            payload: res.data
+          });
+        } else {
+          notification.open({
+            message: "Remote Delete failed, will auto delete when online",
+            description: article.title,
+            icon: <Icon type="smile" style={{ color: "#108ee9" }} />
+          });
+        }
+      }
     });
+  };
+};
+
+export const withdrawArticleFromServer = id => {
+  return async dispatch => {
+    let result = await axios.post(Static.NEED_DELETE_ARTICLE, {
+      // 因为后端的参数需求，这里不得不传递一个对象数组，对象都有id属性。
+      deleteArticleArr: [{ id }]
+    });
+    console.log(result);
+    if (result.data === "ok") {
+      ipcRenderer.send(Static.WITHDRAW_ARTICLE, id);
+      ipcRenderer.once(Static.WITHDRAWED_ARTICLE, async (event, article) => {
+        dispatch({
+          type: Static.UPDATE_AN_ARTICLE_INFO,
+          article
+        });
+        notification.open({
+          message: "Withdraw Successfully!",
+          description: article.title,
+          icon: <Icon type="smile" style={{ color: "#108ee9" }} />
+        });
+      });
+      const res = await axios.get("/api/current_user");
+      dispatch({
+        type: Static.FETCH_USER,
+        payload: res.data
+      });
+    } else {
+      notification.open({
+        message: "Withdraw failed, will auto withdraw when online",
+        description: article.title,
+        icon: <Icon type="smile" style={{ color: "#108ee9" }} />
+      });
+    }
   };
 };
 

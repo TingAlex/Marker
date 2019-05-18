@@ -141,3 +141,10 @@ ipcMain.on(
     mainWindow.webContents.send(Static.PUBLICED_ARTICLE, articleInfo);
   }
 );
+ipcMain.on(Static.WITHDRAW_ARTICLE, async (event, id) => {
+  console.log("++++++++++++++++goPrivate Article!++++++++++++++");
+  let articleInfo = await oper.setPrivateArticle(id);
+  console.log("#########articleInfo#############");
+  console.log(articleInfo);
+  mainWindow.webContents.send(Static.WITHDRAWED_ARTICLE, articleInfo);
+});

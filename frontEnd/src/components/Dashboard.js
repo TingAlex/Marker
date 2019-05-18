@@ -10,7 +10,8 @@ import {
   createArticle,
   deleteArticle,
   transWeblinkSaveContent,
-  uploadArticleToServer
+  uploadArticleToServer,
+  withdrawArticleFromServer
 } from "../actions/article";
 import ArticleList from "./ArticleList";
 import Editor from "./Editor";
@@ -36,7 +37,10 @@ class Dashboard extends React.Component {
     this.props.createNewArticle();
   };
   deleteArticle = () => {
-    this.props.deleteCurrentArticle(this.props.currentArticle.id);
+    this.props.deleteCurrentArticle(
+      this.props.currentArticle.id,
+      this.props.currentArticle.published
+    );
   };
   saveContent = () => {
     this.props.saveContentChanges(
@@ -55,7 +59,9 @@ class Dashboard extends React.Component {
     this.props.uploadArticle(this.props.currentArticle.id, this.props.auth._id);
   };
 
-  withdrawArticle = () => {};
+  withdrawArticle = () => {
+    this.props.withdrawArticle(this.props.currentArticle.id);
+  };
 
   render() {
     return (
@@ -185,14 +191,17 @@ const mapDispatchToProps = dispatch => ({
   createNewArticle: () => {
     dispatch(createArticle());
   },
-  deleteCurrentArticle: id => {
-    dispatch(deleteArticle(id));
+  deleteCurrentArticle: (id, published) => {
+    dispatch(deleteArticle(id, published));
   },
   transWebLinkPicAndSaveArticle: (id, content) => {
     dispatch(transWeblinkSaveContent(id, content));
   },
   uploadArticle: (articleId, userId) => {
     dispatch(uploadArticleToServer(articleId, userId));
+  },
+  withdrawArticle: articleId => {
+    dispatch(withdrawArticleFromServer(articleId));
   }
 });
 

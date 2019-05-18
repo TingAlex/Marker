@@ -49,7 +49,7 @@ const processPicAddressExpWebLink = async (
     let str = contentArr[picIndexArray[i]];
     // address 中保存*地址*，作为后续判断的参照
     let [full, title, address] = /![\[](.*)]\((.*)\)/.exec(str);
-    console.log("address: ", address);
+    // console.log("address: ", address);
     if (address.indexOf(currentArticlePath) !== -1) {
       // 一定为本文章本地地址
       let picId = path.basename(address, ".png");
@@ -86,7 +86,7 @@ const processPicAddressExpWebLink = async (
   // 将切分的数组再拼接回content，将更新的content保存到文件中，再返回
   let newContent = contentArr.join("");
   let result = await oper.saveArticle(currentArticleId, newContent);
-  console.log(newContent);
+  // console.log(newContent);
   return newContent;
 };
 
@@ -125,7 +125,7 @@ const processPicAddressOnlyWebLink = async (
     let str = contentArr[picIndexArray[i]];
     // address 中保存*地址*，作为后续判断的参照
     let [full, title, address] = /![\[](.*)]\((.*)\)/.exec(str);
-    console.log("address: ", address);
+    // console.log("address: ", address);
     if (address.indexOf("http") === 0) {
       // 一定为网络地址，将网络图片保存下来
       let absolutePath = await oper.saveWebPic(
@@ -143,7 +143,7 @@ const processPicAddressOnlyWebLink = async (
   // 将切分的数组再拼接回content，将更新的content保存到文件中，再返回
   let newContent = contentArr.join("");
   let result = await oper.saveArticle(currentArticleId, newContent);
-  console.log(newContent);
+  // console.log(newContent);
   return newContent;
 };
 
@@ -174,7 +174,8 @@ const saveAndProcessArticleExpWebLink = async (articleId, content) => {
 const saveAndProcessArticleOnlyWebLink = async (articleId, content) => {
   let splitedContent = await splitContentByPics(content);
   // 因为一定是先保存后才可以执行这个函数，所以不再需要提取以前的图列表信息了。
-  return await processPicAddressOnlyWebLink(splitedContent, articleId);
+  let result = await processPicAddressOnlyWebLink(splitedContent, articleId);
+  return result;
 };
 
 /**

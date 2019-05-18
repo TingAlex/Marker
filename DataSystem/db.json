@@ -1,126 +1,58 @@
 {
   "articles": [
     {
-      "title": "test file 12123awe",
+      "title": "ytest",
       "folder": "default",
       "webLocation": "",
-      "lastModefiedTime": "2019-04-13T02:04:37.106Z",
-      "id": "a8acdc3c-b577-4fb7-a197-adf2244169d8",
-      "published": true,
-      "publicLink": "http://localhost:5000/uploads/5cd90b2e1006813c1031c428/a8acdc3c-b577-4fb7-a197-adf2244169d8/index.html",
+      "lastModefiedTime": "2019-05-17T13:54:05.454Z",
+      "published": false,
+      "publicLink": "",
       "pics": [
         {
-          "title": "imageTestName",
-          "id": "8b97e49a-fe0a-4a32-bf96-2094ad78988e"
-        },
-        {
-          "title": "haha.png",
-          "id": "758e014f-aafe-49f8-9081-56c770175c35"
-        },
-        {
-          "title": "haha.png",
-          "id": "f3bd442b-bd79-415e-9c4a-d80cbf06d64b"
-        }
-      ]
-    },
-    {
-      "title": "test file 2",
-      "folder": "default",
-      "webLocation": "",
-      "lastModefiedTime": "2019-04-13T02:04:55.711Z",
-      "id": "5b87aa43-3bc1-4ab8-89e6-bb501db15240",
-      "published": true,
-      "publicLink": "http://localhost:5000/uploads/5cd90b2e1006813c1031c428/5b87aa43-3bc1-4ab8-89e6-bb501db15240/index.html",
-      "pics": [
-        {
-          "title": "test",
-          "id": "175e8395-6bb9-4259-9d20-6e2426e0089f"
-        }
-      ]
-    },
-    {
-      "title": "test file 22",
-      "folder": "default",
-      "webLocation": "",
-      "lastModefiedTime": "2019-04-13T02:06:20.411Z",
-      "id": "c0e438c5-176b-4f23-ba71-50302f672a9b",
-      "published": true,
-      "publicLink": "http://localhost:5000/uploads/5cd90b2e1006813c1031c428/c0e438c5-176b-4f23-ba71-50302f672a9b/index.html",
-      "pics": [
-        {
-          "title": "test.jpg",
-          "id": "583926f8-9dca-4431-823b-14d5ddf1fe61"
+          "title": "gre",
+          "id": "285dd753-6581-412a-8f52-61ef5cd843b8"
         },
         {
           "title": "image.png",
-          "id": "3de6c443-7066-442b-adcc-2819ca454584"
-        }
-      ]
-    },
-    {
-      "title": "Look up the sky",
-      "folder": "default",
-      "webLocation": "",
-      "lastModefiedTime": "2019-05-01T12:16:53.171Z",
-      "id": "4c3ebc86-6f08-4bd4-81fd-be293f7f83e4",
-      "published": true,
-      "publicLink": "http://localhost:5000/uploads/5cd90b2e1006813c1031c428/4c3ebc86-6f08-4bd4-81fd-be293f7f83e4/index.html",
-      "pics": [
-        {
-          "title": "image.png",
-          "id": "dea6856c-a634-4a3f-9f68-ca1a59d31ce5"
+          "id": "a3543242-967b-4fa0-b515-c16bf6ec870b"
         },
         {
-          "title": "image.png",
-          "id": "11faa8f5-a1f3-41df-9c49-80fdb72bf68b"
+          "title": "aerg",
+          "id": "2c0e817c-4bc0-4ac9-bf1c-754cc8b26bea"
         },
         {
-          "title": "aet",
-          "id": "c29d6d51-fa43-4da6-b756-e4d5a6201b31"
-        }
-      ]
-    },
-    {
-      "title": "What's this?",
-      "folder": "default",
-      "webLocation": "",
-      "lastModefiedTime": "2019-05-14T14:34:22.496Z",
-      "published": true,
-      "publicLink": "http://localhost:5000/uploads/5cd90b2e1006813c1031c428/e096becb-6657-4833-8c34-fc86843836b8/index.html",
-      "pics": [
-        {
-          "title": "image.png",
-          "id": "48ff7ddb-3742-4e12-ad28-3332fdccb6d2"
+          "title": "aergae",
+          "id": "aecf01c8-51a1-4268-acb8-bfd42bb6a6b5"
         },
         {
-          "title": "image.png",
-          "id": "d6084931-65c5-4b0c-a9e4-80baa40331be"
+          "title": "aerth",
+          "id": "0be0c8c5-44d3-4f51-933a-39f7d47bd498"
         },
         {
-          "title": "awerg",
-          "id": "57909ce9-d71f-459a-bafe-129d2f17f9f1"
+          "title": "aerg",
+          "id": "7e54f08f-fbf0-4047-8152-b061d7d689ea"
+        },
+        {
+          "title": "easrgh",
+          "id": "78ddc1e8-d461-4efc-9fc4-39ce0261784f"
         }
       ],
-      "id": "e096becb-6657-4833-8c34-fc86843836b8"
+      "id": "d536c4be-2354-451e-bfd7-0881fd4dcf4b"
     },
     {
       "title": "Default Title",
       "folder": "default",
       "webLocation": "",
-      "lastModefiedTime": "2019-05-17T08:12:59.174Z",
-      "published": true,
-      "publicLink": "http://localhost:5000/uploads/5cd90b2e1006813c1031c428/8b9bd45f-765f-4923-b23e-190e11582bf5/index.html",
+      "lastModefiedTime": "2019-05-18T00:50:20.910Z",
+      "published": false,
+      "publicLink": "",
       "pics": [
         {
-          "title": "image.png",
-          "id": "6a6aa8b2-41b7-46bb-896d-488189cb83a5"
-        },
-        {
-          "title": "awerg",
-          "id": "f9cb7849-8812-47fa-a937-9824fad059b2"
+          "title": "drhgesr",
+          "id": "8009d5e8-beed-4657-8324-592c5523644d"
         }
       ],
-      "id": "8b9bd45f-765f-4923-b23e-190e11582bf5"
+      "id": "297a1860-d262-421c-9f98-500945480e34"
     }
   ],
   "images": [],

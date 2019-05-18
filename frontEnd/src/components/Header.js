@@ -15,7 +15,17 @@ class Header extends React.Component {
   renderContent() {
     switch (this.props.auth) {
       case null:
-        return <div />;
+        return (
+          <Menu
+            onClick={this.handleClick}
+            selectedKeys={[this.props.header.highlight]}
+            mode="horizontal"
+          >
+            <Menu.Item key="dashboard">
+              <Link to="/">Dashboard</Link>
+            </Menu.Item>
+          </Menu>
+        );
       case false:
         return (
           <Menu

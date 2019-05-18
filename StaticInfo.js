@@ -3,11 +3,13 @@ const ArticleFolder = path.join(__dirname, "/DataSystem/Articles");
 const ImageFolder = path.join(__dirname, "/DataSystem/Images");
 
 module.exports = {
-  // path 文件上传路径
+  // path 图片文件上传路径
   UPLOAD_TARGET_LINK: { host: "localhost", port: "5000", path: "/upload/" },
   // path 文章验证与请求图片上传路径
   ANALYSE_PICS_NEEDED: "http://localhost:5000/article_analyse",
-  PIC_WEB_LINK: "http://localhost:5000/upload/",
+  // path 请求删除指定文章
+  NEED_DELETE_ARTICLE: "http://localhost:5000/delete_article",
+  // path 文章内容上传路径
   UPLOAD_CONTENT_LINK: "http://localhost:5000/article_content/",
   // path 本地文件保存路径
   ARTICLE_FOLDER: ArticleFolder,
@@ -56,6 +58,10 @@ module.exports = {
   SAVE_CLIPBOARD_PIC: "pic:save",
   // ipc 后端 发送转存图片成功后修改文章内图片链接地址后的文章内容
   SAVED_CLIPBOARD_PIC: "pic:saved",
+  // ipc 前端 请求将文章从服务器撤回
+  WITHDRAW_ARTICLE: "article:goPrivate",
+  // ipc 后端 文章已成功撤回
+  WITHDRAWED_ARTICLE: "article:goPrivated",
   // action 将本地文章列表添加到 store
   ARTICLE_LIST: "ARTICLE_LIST",
   // action 将目标文章内容添加到 store
