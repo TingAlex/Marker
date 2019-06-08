@@ -112,16 +112,7 @@ class SignUpForm extends React.Component {
             ]
           })(<Input type="password" onBlur={this.handleConfirmBlur} />)}
         </Form.Item>
-        <Form.Item
-          label={
-            <span>
-              Username&nbsp;
-              <Tooltip title="What do you want others to call you?">
-                <Icon type="question-circle-o" />
-              </Tooltip>
-            </span>
-          }
-        >
+        <Form.Item label="Username">
           {getFieldDecorator("username", {
             rules: [
               {
@@ -131,15 +122,6 @@ class SignUpForm extends React.Component {
               }
             ]
           })(<Input />)}
-        </Form.Item>
-        <Form.Item {...tailFormItemLayout}>
-          {getFieldDecorator("agreement", {
-            valuePropName: "checked"
-          })(
-            <Checkbox>
-              I have read the <a href="">agreement</a>
-            </Checkbox>
-          )}
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">

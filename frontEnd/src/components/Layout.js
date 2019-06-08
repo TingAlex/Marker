@@ -1,8 +1,8 @@
 import React from "react";
 import PhotoLayoutEditor from "react-photo-layout-editor";
 import * as util from "./util";
-import "./style/app.scss";
-import "./layout.scss";
+import "../styles/layoutStyle/app.scss";
+import "../styles/layout.scss";
 
 class Layout extends React.Component {
   constructor() {

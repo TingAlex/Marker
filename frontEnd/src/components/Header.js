@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import * as action from "../actions/header";
-import { Menu } from "antd";
+import { Menu, Affix } from "antd";
 
 class Header extends React.Component {
   handleClick = e => {
@@ -38,11 +38,11 @@ class Header extends React.Component {
             <Menu.Item key="layout">
               <Link to="/layout">Layout</Link>
             </Menu.Item>
-            <Menu.Item key="login">
-              <Link to="/login">Login</Link>
-            </Menu.Item>
-            <Menu.Item key="signup">
+            <Menu.Item key="signup" style={{ float: `right` }}>
               <Link to="/signup">Sign up</Link>
+            </Menu.Item>
+            <Menu.Item key="login" style={{ float: `right` }}>
+              <Link to="/login">Login</Link>
             </Menu.Item>
           </Menu>
         );
@@ -59,17 +59,17 @@ class Header extends React.Component {
             <Menu.Item key="layout">
               <Link to="/layout">Layout</Link>
             </Menu.Item>
-            <Menu.Item key="space">
+            <Menu.Item key="logout" style={{ float: `right` }}>
+              <a href="/api/logout">Logout</a>
+            </Menu.Item>
+            <Menu.Item key="space" style={{ float: `right` }}>
               <Link to="#">
                 UsedSpace:{this.props.auth.spaceUsed}/
                 {this.props.auth.spaceLimit}
               </Link>
             </Menu.Item>
-            <Menu.Item key="username">
+            <Menu.Item key="username" style={{ float: `right` }}>
               <Link to="#">{this.props.auth.userName}</Link>
-            </Menu.Item>
-            <Menu.Item key="logout">
-              <a href="/api/logout">Logout</a>
             </Menu.Item>
           </Menu>
         );

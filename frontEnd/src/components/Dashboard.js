@@ -62,105 +62,133 @@ class Dashboard extends React.Component {
   withdrawArticle = () => {
     this.props.withdrawArticle(this.props.currentArticle.id);
   };
+  renderTools = () => {
+    if (!this.props.currentArticle) {
+      return <Col span={12} />;
+    }
+    if (!this.props.currentArticle.published) {
+      return (
+        <Col span={12}>
+          <Button type="primary" onClick={this.saveContent}>
+            Save
+          </Button>
+          &nbsp;&nbsp;
+          <Button type="primary" onClick={this.transWebLinkPic}>
+            TransWeblink
+          </Button>
+          &nbsp;&nbsp;
+          <Button type="primary" onClick={this.uploadArticle}>
+            GoPublic
+          </Button>
+          &nbsp;&nbsp;
+          <Button type="danger" onClick={this.deleteArticle}>
+            Delete
+          </Button>
+        </Col>
+      );
+    } else {
+      return (
+        <Col span={12}>
+          <Button type="primary" onClick={this.saveContent}>
+            Save
+          </Button>
+          &nbsp;&nbsp;
+          <Button type="primary" onClick={this.transWebLinkPic}>
+            TransWeblink
+          </Button>
+          &nbsp;&nbsp;
+          <Button type="primary" onClick={this.uploadArticle}>
+            RePublic
+          </Button>
+          &nbsp;&nbsp;
+          <Button type="primary" onClick={this.withdrawArticle}>
+            GoPrivate
+          </Button>
+          &nbsp;&nbsp;
+          <Button type="danger" onClick={this.deleteArticle}>
+            Delete
+          </Button>
+        </Col>
+      );
+    }
+  };
 
   render() {
     return (
       <Layout>
         <Sider
+          className="fixHeightSider"
           trigger={null}
           collapsible
           collapsed={this.props.dashboard.collapsed}
         >
           <div className="logo" />
-          <Button onClick={this.createArticle}>Add</Button>
-          <Button onClick={this.deleteArticle}>Del</Button>
+          <Button block onClick={this.createArticle}>
+            Add
+          </Button>
           <ArticleList />
         </Sider>
-        <Layout>
-          <Header style={{ background: "#fff", padding: 0 }}>
-            <Row>
-              <Col span={2}>
-                <Icon
-                  className="trigger"
-                  type={
-                    this.props.dashboard.collapsed ? "menu-unfold" : "menu-fold"
-                  }
-                  onClick={this.toggleSider}
-                />
-              </Col>
-              <Col span={12}>
-                {this.props.dashboard.titleToggle ? (
-                  <div onClick={this.toggleTitle}>
-                    {this.props.currentArticle &&
-                      this.props.currentArticle.title}
-                  </div>
-                ) : (
-                  <Input
-                    defaultValue={this.props.currentArticle.title}
-                    autoFocus="autofocus"
-                    onBlur={e => {
-                      this.changeTitle(e.target.value);
-                      this.toggleTitle();
-                    }}
-                  />
-                )}
-              </Col>
-              <Col span={10}>
-                <Button type="primary" onClick={this.saveContent}>
-                  Save
-                </Button>
-                <Button type="primary" onClick={this.transWebLinkPic}>
-                  TransWeblink
-                </Button>
-                {this.props.currentArticle &&
-                this.props.currentArticle.published ? (
-                  <React.Fragment>
-                    <Button type="primary" onClick={this.uploadArticle}>
-                      RePublic
-                    </Button>
-                    <Button type="primary" onClick={this.withdrawArticle}>
-                      GoPrivate
-                    </Button>
-                  </React.Fragment>
-                ) : (
-                  <Button type="primary" onClick={this.uploadArticle}>
-                    GoPublic
-                  </Button>
-                )}
-                {/* <Button>Default</Button> */}
-                {/* <Button type="dashed">Output</Button> */}
-              </Col>
-            </Row>
-          </Header>
-          {this.props.currentArticle && this.props.currentArticle.published ? (
+        {this.props.currentArticle ? (
+          <Layout>
+            <Header style={{ background: "#fff", padding: `0 24px` }}>
+              <Row>
+                <Col span={8}>
+                  {this.props.dashboard.titleToggle ? (
+                    <div onClick={this.toggleTitle}>
+                      {this.props.currentArticle &&
+                        this.props.currentArticle.title}
+                    </div>
+                  ) : (
+                    <Input
+                      defaultValue={this.props.currentArticle.title}
+                      autoFocus="autofocus"
+                      onBlur={e => {
+                        this.changeTitle(e.target.value);
+                        this.toggleTitle();
+                      }}
+                    />
+                  )}
+                </Col>
+                <Col span={4} />
+                {this.renderTools()}
+              </Row>
+            </Header>
+            {this.props.currentArticle &&
+            this.props.currentArticle.published ? (
+              <Content
+                style={{
+                  margin: "24px 16px",
+                  padding: 24,
+                  background: "#fff",
+                  minHeight: 50
+                }}
+              >
+                <Row>
+                  <Col span={24}>
+                    <a>{this.props.currentArticle.publicLink}</a>
+                  </Col>
+                </Row>
+              </Content>
+            ) : (
+              <div />
+            )}
+
             <Content
               style={{
                 margin: "24px 16px",
                 padding: 24,
                 background: "#fff",
-                minHeight: 50
+                minHeight: 500,
+                maxHeight: 500,
+                overflow: `auto`
               }}
             >
-              <Row>
-                <Col span={24}>
-                  <a>{this.props.currentArticle.publicLink}</a>
-                </Col>
-              </Row>
+              <Editor />
             </Content>
-          ) : (
-            <div />
-          )}
-          <Content
-            style={{
-              margin: "24px 16px",
-              padding: 24,
-              background: "#fff",
-              minHeight: 500
-            }}
-          >
-            <Editor />
-          </Content>
-        </Layout>
+          </Layout>
+        ) : (
+          <div />
+        )}
       </Layout>
     );
   }

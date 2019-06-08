@@ -3,7 +3,23 @@
   line-height: 64px;
   padding: 0 24px;
   cursor: pointer;
-  transition: color .3s;
+  transition: color 0.3s;
+}
+
+/* .scrollSider {
+  overflow: auto;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+} */
+
+.fixHeightSider {
+  height: 730px;
+}
+
+.scrollEditor {
+  height: 150px;
+  overflow: auto;
 }
 
 .trigger:hover {
@@ -11,7 +27,10 @@
 }
 
 .logo {
-  height: 32px;
-  background: rgba(255,255,255,.2);
+  background: url("../components/style/images/logo.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 50px;
   margin: 16px;
 }

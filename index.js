@@ -13,15 +13,17 @@ const {
 
 // app 负责整个项目的执行流程，BrowserWindow 是用来打开一个新窗口的
 // 新增 ipcMain 是后端向前端发送信息用的
-const { app, BrowserWindow, ipcMain } = electron;
+const { app, BrowserWindow, ipcMain, Menu } = electron;
 
 let mainWindow;
 
 // 监听 到 ready 信号后执行函数内部代码
 app.on("ready", async () => {
+  // 移除顶部的菜单栏
+  // Menu.setApplicationMenu(null);
   mainWindow = new BrowserWindow({
-    width: 1184,
-    height: 724,
+    minWidth: 1184,
+    minHeight: 857,
     webPreferences: {
       webSecurity: false
     }

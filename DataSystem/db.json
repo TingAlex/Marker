@@ -1,23 +1,14 @@
 {
   "articles": [
     {
-      "title": "See see",
+      "title": "Default Title",
       "folder": "default",
       "webLocation": "",
-      "lastModefiedTime": "2019-06-06T10:20:15.183Z",
-      "published": true,
-      "publicLink": "http://localhost:5000/uploads/5ce0ba606900c426f8b70816/36788617-2d46-4337-83a1-ca5b7f06fade/index.html",
-      "pics": [
-        {
-          "title": "image.png",
-          "id": "858d6f2e-e584-4d75-a044-5973cffc5549"
-        },
-        {
-          "title": "image.png",
-          "id": "ab2c0f6c-277a-4c6e-ae89-4a6e77a06313"
-        }
-      ],
-      "id": "36788617-2d46-4337-83a1-ca5b7f06fade"
+      "lastModefiedTime": "2019-06-08T12:47:24.638Z",
+      "published": false,
+      "publicLink": "",
+      "pics": [],
+      "id": "b7a602fc-2c8b-4bf5-a7fa-b7aa8d154ee7"
     }
   ],
   "images": [],

@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Row, Col } from "antd";
 import * as articleAction from "../actions/article";
+import "../styles/editor.css";
 
 class Editor extends React.Component {
   onContentChange = e => {
@@ -95,8 +96,9 @@ class Editor extends React.Component {
     return (
       <div>
         <Row>
-          <Col span={12}>
+          <Col span={11}>
             <div
+              className="fixHeightEditor"
               contentEditable="plaintext-only"
               onInput={e => this.onContentChange(e)}
               suppressContentEditableWarning={true}
@@ -106,7 +108,8 @@ class Editor extends React.Component {
               {this.props.article.currentContent}
             </div>
           </Col>
-          <Col span={12}>
+          <Col span={2} />
+          <Col span={11}>
             <div
               id="renderedContent"
               dangerouslySetInnerHTML={{

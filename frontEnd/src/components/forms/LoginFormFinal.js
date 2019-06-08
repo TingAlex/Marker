@@ -3,6 +3,7 @@ import React from "react";
 import * as actions from "../../actions/user";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { Form, Icon, Input, Button, Checkbox } from "antd";
 import "../../styles/login.css";
@@ -16,6 +17,10 @@ class LoginForm extends React.Component {
         this.props.submitLogin(values, this.props.history);
       }
     });
+  };
+
+  goSignup = () => {
+    this.props.jumpToSignup(this.props.history);
   };
 
   render() {
@@ -44,13 +49,6 @@ class LoginForm extends React.Component {
           )}
         </Form.Item>
         <Form.Item>
-          {getFieldDecorator("remember", {
-            valuePropName: "checked",
-            initialValue: true
-          })(<Checkbox>Remember me</Checkbox>)}
-          <a className="login-form-forgot" href="">
-            Forgot password
-          </a>
           <Button
             type="primary"
             htmlType="submit"
@@ -58,7 +56,13 @@ class LoginForm extends React.Component {
           >
             Log in
           </Button>
-          Or <a href="">register now!</a>
+          <a className="login-form-forgot" href="">
+            Forgot password
+          </a>
+          Or&nbsp;&nbsp;
+          <Link to="/signup" onClick={this.goSignup}>
+            register now!
+          </Link>
         </Form.Item>
       </Form>
     );

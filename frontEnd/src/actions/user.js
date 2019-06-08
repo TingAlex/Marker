@@ -29,3 +29,8 @@ export const submitSignup = (value, history) => async dispatch => {
     dispatch({ type: Static.SET_HIGHLIGHT, highlight: "login" });
   }
 };
+
+export const jumpToSignup = history => async dispatch => {
+  history.push("/signup");
+  dispatch({ type: Static.SET_HIGHLIGHT, highlight: "signup" });
+};
