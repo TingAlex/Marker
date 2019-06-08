@@ -2,16 +2,12 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import * as action from "../actions/header";
-
-import axios from "axios";
-
-import { Menu, Button } from "antd";
+import { Menu } from "antd";
 
 class Header extends React.Component {
   handleClick = e => {
     this.props.setHighlight(e.key);
   };
-
   renderContent() {
     switch (this.props.auth) {
       case null:
@@ -24,6 +20,9 @@ class Header extends React.Component {
             <Menu.Item key="dashboard">
               <Link to="/">Dashboard</Link>
             </Menu.Item>
+            <Menu.Item key="layout">
+              <Link to="/layout">Layout</Link>
+            </Menu.Item>
           </Menu>
         );
       case false:
@@ -35,6 +34,9 @@ class Header extends React.Component {
           >
             <Menu.Item key="dashboard">
               <Link to="/">Dashboard</Link>
+            </Menu.Item>
+            <Menu.Item key="layout">
+              <Link to="/layout">Layout</Link>
             </Menu.Item>
             <Menu.Item key="login">
               <Link to="/login">Login</Link>
@@ -53,6 +55,9 @@ class Header extends React.Component {
           >
             <Menu.Item key="dashboard">
               <Link to="/">Dashboard</Link>
+            </Menu.Item>
+            <Menu.Item key="layout">
+              <Link to="/layout">Layout</Link>
             </Menu.Item>
             <Menu.Item key="space">
               <Link to="#">

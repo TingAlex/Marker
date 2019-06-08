@@ -6,6 +6,7 @@ import * as actions from "../actions/user";
 import Login from "../components/Login";
 import SignUp from "../components/SignUp";
 import Dashboard from "../components/Dashboard";
+import Layout from "../components/Layout";
 import Header from "../components/Header";
 
 class AppRouter extends React.Component {
@@ -19,6 +20,7 @@ class AppRouter extends React.Component {
           <Header />
           <Switch>
             <Route exact path="/" component={Dashboard} />
+            <Route exact path="/layout" component={Layout} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={SignUp} />
           </Switch>

@@ -1,58 +1,23 @@
 {
   "articles": [
     {
-      "title": "ytest",
+      "title": "See see",
       "folder": "default",
       "webLocation": "",
-      "lastModefiedTime": "2019-05-17T13:54:05.454Z",
-      "published": false,
-      "publicLink": "",
+      "lastModefiedTime": "2019-06-06T10:20:15.183Z",
+      "published": true,
+      "publicLink": "http://localhost:5000/uploads/5ce0ba606900c426f8b70816/36788617-2d46-4337-83a1-ca5b7f06fade/index.html",
       "pics": [
         {
-          "title": "gre",
-          "id": "285dd753-6581-412a-8f52-61ef5cd843b8"
+          "title": "image.png",
+          "id": "858d6f2e-e584-4d75-a044-5973cffc5549"
         },
         {
           "title": "image.png",
-          "id": "a3543242-967b-4fa0-b515-c16bf6ec870b"
-        },
-        {
-          "title": "aerg",
-          "id": "2c0e817c-4bc0-4ac9-bf1c-754cc8b26bea"
-        },
-        {
-          "title": "aergae",
-          "id": "aecf01c8-51a1-4268-acb8-bfd42bb6a6b5"
-        },
-        {
-          "title": "aerth",
-          "id": "0be0c8c5-44d3-4f51-933a-39f7d47bd498"
-        },
-        {
-          "title": "aerg",
-          "id": "7e54f08f-fbf0-4047-8152-b061d7d689ea"
-        },
-        {
-          "title": "easrgh",
-          "id": "78ddc1e8-d461-4efc-9fc4-39ce0261784f"
+          "id": "ab2c0f6c-277a-4c6e-ae89-4a6e77a06313"
         }
       ],
-      "id": "d536c4be-2354-451e-bfd7-0881fd4dcf4b"
-    },
-    {
-      "title": "Default Title",
-      "folder": "default",
-      "webLocation": "",
-      "lastModefiedTime": "2019-05-18T00:50:20.910Z",
-      "published": false,
-      "publicLink": "",
-      "pics": [
-        {
-          "title": "drhgesr",
-          "id": "8009d5e8-beed-4657-8324-592c5523644d"
-        }
-      ],
-      "id": "297a1860-d262-421c-9f98-500945480e34"
+      "id": "36788617-2d46-4337-83a1-ca5b7f06fade"
     }
   ],
   "images": [],

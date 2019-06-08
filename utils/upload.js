@@ -12,7 +12,13 @@ const getCookie = () => {
       if (error) {
         reject(error);
       } else {
-        resolve(cookies);
+        console.log("*************selected Cookie*************");
+        for (let i = 0; i < cookies.length; i++) {
+          if (cookies[i].name === "express:sess") {
+            console.log(cookies[i]);
+            resolve([cookies[i]]);
+          }
+        }
       }
     });
   });

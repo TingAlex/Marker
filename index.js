@@ -20,8 +20,8 @@ let mainWindow;
 // 监听 到 ready 信号后执行函数内部代码
 app.on("ready", async () => {
   mainWindow = new BrowserWindow({
-    width: 1200,
-    height: 900,
+    width: 1184,
+    height: 724,
     webPreferences: {
       webSecurity: false
     }

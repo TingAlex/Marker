@@ -15,6 +15,9 @@
       #renderedContent img {
         max-width: 100%;
       }
+      .ple-side .ple-sideItems span {
+        -webkit-appearance: none !important;
+      }
     </style>
     <link
       rel="stylesheet"
@@ -27,6 +30,10 @@
     <script src="highlight.pack.js"></script>
     <script>
       hljs.initHighlightingOnLoad();
+    </script>
+    <script>
+      // delete process.env.ELECTRON_ENABLE_SECURITY_WARNINGS;
+      // process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true;
     </script>
     <script src="/bundle.js"></script>
   </body>

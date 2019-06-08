@@ -17,8 +17,15 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"]
+        test: /\.s?css$/,
+        use: ["style-loader", "css-loader", "sass-loader"]
+      },
+      {
+        test: /\.(jpg|png)$/,
+        loader: "file-loader",
+        options: {
+          name: "assets/images/[name].[ext]"
+        }
       }
     ]
   },
